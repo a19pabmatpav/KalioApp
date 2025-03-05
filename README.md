@@ -4,8 +4,7 @@ Aquí tens el fitxer **`README.md`** actualitzat amb la teva paleta de colors:
 # **Nom del projecte: Kalio App**
 
 ## Integrants
-- **Nom de l'integrant 1**: [Nom de l'integrant]
-- **Nom de l'integrant 2**: [Nom de l'integrant] (si escau)
+- **Nom de l'integrant 1**: Pablo Matamoros
 
 ## Descripció
 Aquesta aplicació web permet als usuaris registrar i gestionar el seu consum diari de calories, així com consultar informes detallats sobre la seva alimentació. L'usuari pot establir un **repte** personal amb un límit de calories diàries, el qual tindrà una durada determinada. Els usuaris podran registrar el consum de calories de cada dia i fer un seguiment del seu rendiment en relació amb el repte establert.
