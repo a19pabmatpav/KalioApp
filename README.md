@@ -1,7 +1,7 @@
 Aquí tens el fitxer **`README.md`** actualitzat amb la teva paleta de colors:
 
 ```markdown
-# **Nom del projecte: App de Gestió de Caloríes**
+# **Nom del projecte: Kalio App**
 
 ## Integrants
 - **Nom de l'integrant 1**: [Nom de l'integrant]
