@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="register">
+    <form @submit.prevent="register" class="register-form">
       <div>
         <label for="username">Username</label>
         <input v-model="username" type="text" id="username" required />
@@ -40,3 +40,35 @@
   }
   </script>
   
+<style scoped >
+
+.register-form button {
+    display: flex;
+    margin: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    background-color: #FF7A00;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+div {
+    max-width: 90vw;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    width: 90%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+</style>
