@@ -1,47 +1,67 @@
 <template>
     <form @submit.prevent="register" class="register-form">
-      <div>
-        <label for="username">Username</label>
-        <input v-model="username" type="text" id="username" required />
-      </div>
-      <div>
-        <label for="email">Email</label>
-        <input v-model="email" type="email" id="email" required />
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input v-model="password" type="password" id="password" required />
-      </div>
-      <div>
-        <button type="submit">Register</button>
-      </div>
+        <div>
+            <label for="username">Username</label>
+            <input v-model="username" type="text" id="username" required />
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input v-model="email" type="email" id="email" required />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input v-model="password" type="password" id="password" required />
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
     </form>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        username: '',
-        email: '',
-        password: '',
-      };
-    },
-    methods: {
-      register() {
-        // Aquí puedes hacer una llamada a una API para autenticar al usuario
-        if (this.username === 'admin' && this.password === 'password') {
-          this.$router.push('/dashboard'); // Redirigir al dashboard
-        } else {
-          alert('Invalid credentials');
-        }
-      }
-    }
-  }
-  </script>
-  
-<style scoped >
+</template>
 
+<script setup>
+const auth = useAuthStore()
+const router = useRouter()
+
+
+const username = ref('')
+const email = ref('')
+const password = ref('')
+
+// Función para el login
+const register = async () => {
+    if (username.value && email.value && password.value) {
+        console.log(username.value, email.value, password.value);
+        try {
+            
+            const response = await $fetch('http://localhost:8000/api/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    username: username.value,
+                    email: email.value,
+                    password: password.value
+                })
+            })
+
+            if (response.token && response.username) {
+                // Guardamos el token y el nombre de usuario en el store
+                auth.login(response.username, response.token)
+
+                // Redirigimos a la vista principal
+                router.push('/mainView')
+            } else {
+                alert('Invalid credentials')
+            }
+        } catch (error) {
+            console.error('Error during login:', error)
+            alert('There was an error logging in.')
+        }
+    } else {
+        alert('Please fill in all fields.')
+    }
+}
+</script>
+
+<style scoped>
 .register-form button {
     display: flex;
     margin: auto;

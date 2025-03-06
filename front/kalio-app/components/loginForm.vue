@@ -40,10 +40,11 @@ const login = async () => {
                 })
             })
 
-            if (response.token && response.username) {
+            if (response.user.name && response.access_token) {
                 // Guardamos el token y el nombre de usuario en el store
-                auth.login(response.username, response.token)
-
+                auth.login(response.user.name, response.access_token)
+                localStorage.setItem('authToken', response.access_token)
+                localStorage.setItem('authUsername', response.user.name)
                 // Redirigimos a la vista principal
                 router.push('/mainView')
             } else {
