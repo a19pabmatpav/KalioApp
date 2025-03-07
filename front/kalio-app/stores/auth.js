@@ -1,6 +1,3 @@
-// stores/auth.js
-import { defineStore } from 'pinia'
-
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     username: '',
@@ -16,5 +13,9 @@ export const useAuthStore = defineStore('auth', {
     logout() {
       this.authenticated = false
     }
+    
+  },
+  getters: {
+    isAuthenticated: (state) => !!state.authenticated
   }
 })
