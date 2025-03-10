@@ -44,19 +44,20 @@ const register = async () => {
 
             if (response.token && response.username) {
                 // Guardamos el token y el nombre de usuario en el store
-                auth.login(response.username, response.token)
+                auth.login(response.username, response.token, response.repte)
+                localStorage.setItem('authUsername', response.user.name)
+                localStorage.setItem('authToken', response.access_token)
 
-                // Redirigimos a la vista principal
-                router.push('/mainView')
+                router.push('/repte')
             } else {
                 alert('Invalid credentials')
             }
         } catch (error) {
-            console.error('Error during login:', error)
-            alert('There was an error logging in.')
+            console.error('Error durante el registro:', error)
+            alert('Hubo un error durante el registro.')
         }
-    } else {
-        alert('Please fill in all fields.')
+        } else {
+        alert('Por favor, complete todos los campos.')
     }
 }
 </script>

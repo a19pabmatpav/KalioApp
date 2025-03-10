@@ -54,12 +54,15 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         $hasChallenge = \DB::table('reptes')->where('user_id', $user->id)->exists();
+        if ($hasChallenge) {
+            $challenge = \DB::table('reptes')->where('user_id', $user->id)->first();
+        }
 
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user' => $user,
-            'repte' => $hasChallenge
+            'repte' => $challenge ?? null
         ]);
     }
 

@@ -46,7 +46,13 @@ const login = async () => {
                 localStorage.setItem('authToken', response.access_token)
                 localStorage.setItem('authUsername', response.user.name)
                 // Redirigimos a la vista principal
-                router.push('/mainView')
+                if (response.repte) {
+                    auth.setRepte(response.repte)
+                    localStorage.setItem('repte', response.repte)
+                    router.push('/mainView')
+                } else {
+                    router.push('/repte')
+                }
             } else {
                 alert('Invalid credentials')
             }

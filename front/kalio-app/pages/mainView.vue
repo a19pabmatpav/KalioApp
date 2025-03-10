@@ -1,8 +1,7 @@
 <script>
-export default {
-  middleware: 'auth',
-}
-
+definePageMeta({
+  middleware: 'auth'
+})
 </script>
 
 <template>

@@ -12,19 +12,17 @@
       
       <div>
         <label for="maxCalories">Límit diari de caloríes:</label>
-        <textarea id="maxCalories" v-model="maxCalories" required></textarea>
+        <input type="number" id="maxCalories" v-model="maxCalories" required></input>
         </div>
       <button type="submit">Crear Repte</button>
     </form>
   </template>
   
   <script setup>  
-  // Fecha de inicio: Se establece al momento actual
   const startDate = ref(new Date().toISOString().slice(0, 16))
-  // Fecha de finalización: Nula por defecto
   const endDate = ref('')
   
-  const submitRepte = () => {
+  const submitRepte = async () => {
     const repteData = {
       start: startDate.value,
       end: endDate.value || null,
@@ -32,7 +30,22 @@
     }
   
     console.log('Datos del repte:', repteData)
-    alert('Repte creado con éxito!')
+    
+    const response = await $fetch('http://localhost:8000/api/repte', {
+      method: 'POST',
+      body: JSON.stringify(repteData)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error al crear el repte:', error))
+
+    if (response.repte) {
+      auth.setRepte(response.repte)
+      localStorage.setItem('repte', response.repte)
+      router.push('/mainView')
+    } else {
+      alert('Error al crear el repte')
+    }
   }
   </script>
   
@@ -56,6 +69,7 @@
   button {
     padding: 10px;
     background-color: #FF7A00;
+    border-radius: 5px;
     color: white;
     border: none;
     cursor: pointer;
