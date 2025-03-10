@@ -1,6 +1,3 @@
-Aquí tens el fitxer **`README.md`** actualitzat amb la teva paleta de colors:
-
-```markdown
 # **Nom del projecte: Kalio App**
 
 ## Integrants
@@ -10,13 +7,13 @@ Aquí tens el fitxer **`README.md`** actualitzat amb la teva paleta de colors:
 Aquesta aplicació web permet als usuaris registrar i gestionar el seu consum diari de calories, així com consultar informes detallats sobre la seva alimentació. L'usuari pot establir un **repte** personal amb un límit de calories diàries, el qual tindrà una durada determinada. Els usuaris podran registrar el consum de calories de cada dia i fer un seguiment del seu rendiment en relació amb el repte establert.
 
 ## Adreça del gestor de tasques
-- [Taiga](https://taiga.io) (canvia amb la URL que utilitzis per la gestió de tasques, com Trello, Jira, etc.)
+- [Taiga](https://tree.taiga.io/project/a19pabmatpav-tr3mini-mvpkalioapp/timeline)
 
 ## Adreça del prototip gràfic del projecte
-- [Figma](https://www.figma.com) (canvia amb la URL que utilitzis per la creació del prototip gràfic, com Penpot, Moqups, etc.)
+- [Penpot](https://design.penpot.app/#/view?file-id=e3472dad-8d1d-80d6-8005-d3600318f8f0&page-id=e3472dad-8d1d-80d6-8005-d3600318f8f1&section=interactions&index=0&share-id=7e5a2fce-ccc0-804a-8005-d50a692b6a78) (Casus d'ús)
 
 ## URL de producció
-- [https://www.example.com](https://www.example.com) (afegiu la URL de producció quan estigui disponible)
+- [kalioApp.com](proximament...)
 
 ## Estat
 El projecte es troba en fase de desenvolupament. Actualment, la funcionalitat de creació de reptes i registre de consum de calories diàries està implementada, i s'està treballant en la part de seguiment dels informes i validació de les dades. El sistema d'autenticació (login, registre d'usuaris) també està actiu i operatiu.
@@ -78,7 +75,7 @@ El projecte es troba en fase de desenvolupament. Actualment, la funcionalitat de
 - **Frontend**: Nuxt.js 1.x
 - **Base de dades**: MySQL
 - **Autenticació**: Sanctum
-- **Frontend/Backend comunicats via API RESTful
+- **Frontend/Backend comunicats via API RESTful**
 
 ---
 
