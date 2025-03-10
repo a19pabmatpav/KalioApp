@@ -32,7 +32,7 @@ const register = async () => {
     if (username.value && email.value && password.value) {
         console.log(username.value, email.value, password.value);
         try {
-            
+
             const response = await $fetch('http://localhost:8000/api/register', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -42,21 +42,19 @@ const register = async () => {
                 })
             })
 
-            if (response.token && response.username) {
-                // Guardamos el token y el nombre de usuario en el store
-                auth.login(response.username, response.token, response.repte)
-                localStorage.setItem('authUsername', response.user.name)
-                localStorage.setItem('authToken', response.access_token)
 
-                router.push('/repte')
-            } else {
-                alert('Invalid credentials')
-            }
+            // Guardamos el token y el nombre de usuario en el store
+            auth.login(response.username, response.token)
+            localStorage.setItem('authUsername', response.user.name)
+            localStorage.setItem('authToken', response.access_token)
+
+            router.push('/repte')
+
         } catch (error) {
             console.error('Error durante el registro:', error)
             alert('Hubo un error durante el registro.')
         }
-        } else {
+    } else {
         alert('Por favor, complete todos los campos.')
     }
 }

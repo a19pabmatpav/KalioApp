@@ -2,7 +2,7 @@
     <form @submit.prevent="submitRepte">
       <div>
         <label for="start">Fecha de inicio:</label>
-        <input type="datetime-local" id="start" v-model="startDate" disabled />
+        <input type="datetime-local" id="start" v-model="startDate" />
       </div>
   
       <div>
@@ -12,40 +12,45 @@
       
       <div>
         <label for="maxCalories">Límit diari de caloríes:</label>
-        <input type="number" id="maxCalories" v-model="maxCalories" required></input>
+        <input type="number" id="maxCalories" v-model="maxCalories" required/>
         </div>
       <button type="submit">Crear Repte</button>
     </form>
   </template>
   
   <script setup>  
-  const startDate = ref(new Date().toISOString().slice(0, 16))
+  const startDate = ref('')
   const endDate = ref('')
-  
+  const authStore = useAuthStore()
+  const maxCalories = ref('')
+  const router = useRouter()
+
   const submitRepte = async () => {
     const repteData = {
-      start: startDate.value,
-      end: endDate.value || null,
-      maxCalories: maxCalories.value,
+      nom: `Repte de ${authStore.username}`,
+      data_inici: startDate.value,
+      data_fi: endDate.value || null,
+      limit_calories_diari: maxCalories.value,
     }
   
     console.log('Datos del repte:', repteData)
     
-    const response = await $fetch('http://localhost:8000/api/repte', {
+    const response = await $fetch('http://localhost:8000/api/reptes', {
       method: 'POST',
-      body: JSON.stringify(repteData)
+      body: JSON.stringify(repteData),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+      }
     })
-      .then(response => response.json())
-      .then(data => console.log(data))
+      
+      .then(data => {
+        console.log(data)
+        authStore.setRepte(data.repte)
+        localStorage.setItem('repte', data.repte)
+        router.push('/mainView')
+      })
       .catch(error => console.error('Error al crear el repte:', error))
-
-    if (response.repte) {
-      auth.setRepte(response.repte)
-      localStorage.setItem('repte', response.repte)
-      router.push('/mainView')
-    } else {
-      alert('Error al crear el repte')
-    }
   }
   </script>
   

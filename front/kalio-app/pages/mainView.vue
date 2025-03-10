@@ -5,7 +5,9 @@ definePageMeta({
 </script>
 
 <template>
-<h1>Esto es la pagina principal</h1>
+<progressBar />
+<kalio />
+<stats />
 </template>
 
 <style>
