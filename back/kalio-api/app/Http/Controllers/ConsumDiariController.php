@@ -12,7 +12,8 @@ class ConsumDiariController extends Controller
      */
     public function index()
     {
-        //
+        $consums = ConsumDiari::all();
+        return response()->json($consums);
     }
 
     /**

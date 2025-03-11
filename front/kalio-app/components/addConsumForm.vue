@@ -70,17 +70,45 @@ export default {
                 cantidad: this.cantidadLiquido,
             });
         },
+        // Función para calcular las calorías consumida. Proximamente se hará con la API exterior.
+        calorinator(consum) {
+                let totalCalories = 0;
+                consum.alimentos.forEach((alimento) => {
+                    totalCalories += alimento.cantidad;
+                });
+                consum.liquidos.forEach((liquido) => {
+                    totalCalories += liquido.cantidad;
+                });
+                return totalCalories;
+            },
         async addConsum() {
+            const auth = useAuthStore()
+            const repte_id = auth.repte.id;
+
+            const consum = {
+                alimentos: this.alimentos,
+                liquidos: this.liquidos,
+            }
+            const consumedCalories = this.calorinator(consum);
+
             const response = await $fetch('http://localhost:8000/api/addConsum', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Bearer': localStorage.getItem('authToken'),
+                },
                 body: JSON.stringify({
-                    alimentos: this.alimentos,
-                    liquidos: this.liquidos,
+                    repte_id: repte_id,
+                    calories: consumedCalories,
+                    data: new Date().toISOString().split('T')[0]
                 }),
+            })
+            .then((response) => {
+                console.log('Success:', response);
+                this.$router.push('/mainView');
+            }).catch((error) => {
+                console.error('Error:', error);
             });
-            console.log(response);
-            
-            this.$router.push('/mainView');
         },
 }};
 </script>

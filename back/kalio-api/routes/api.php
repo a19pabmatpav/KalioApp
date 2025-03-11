@@ -16,8 +16,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']); // Obtener datos del usuario autenticado
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/reptes', [RepteController::class, 'store']); // Crear o actualizar reto
-    Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar consum diari
+
+    Route::get('/consumit', [ConsumDiariController::class, 'index']); // Obtener consums diaris
 });
+
+Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar consum diari
 
 //
 Route::middleware('auth:sanctum')->group(function () {
