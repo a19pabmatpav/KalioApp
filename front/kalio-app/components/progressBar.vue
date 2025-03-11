@@ -1,17 +1,22 @@
 <template>
     <div class="progress-bar">
         <h2>Progress Bar</h2>
-        <div class="progress" :style="{ width: progress + '%' }"></div>
+        <div class="progress" :style="{ width: barraProgres + '%' }"></div>
     </div>
 </template>
 
 <script>
+const authStore = useAuthStore()
+
+
 export default {
     name: 'ProgressBar',
-    props: {
-        progress: {
-            type: Number,
-            required: true
+    computed: {
+        barraProgres() {
+            const maxCalories = authStore.repte?.limit_calories_diari || 0;  // Obtener el máximo de calorías
+            let consumedCalories = authStore.consumDia || 0;  // Obtener las calorías consumidas
+            const progress = (consumedCalories / maxCalories) * 100;
+            return Math.min(progress, 100);
         }
     }
 }

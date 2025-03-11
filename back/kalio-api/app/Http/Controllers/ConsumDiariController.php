@@ -28,8 +28,25 @@ class ConsumDiariController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'repte_id' => 'required|integer',
+            'data' => 'required|date',
+            'calories' => 'required|integer',
+        ]);
+
+        $consum = ConsumDiari::create([
+            'repte_id' => $request->repte_id,
+            'data' => $request->data,
+            'calories_consumides' => $request->calories,
+        ]);
+
+        return response()->json([
+            'message' => 'Consum diari registrat correctament',
+            'consum' => $consum
+        ], 201);
     }
+
+
 
     /**
      * Display the specified resource.

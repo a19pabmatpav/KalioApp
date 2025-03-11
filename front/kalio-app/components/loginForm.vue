@@ -42,6 +42,9 @@ const login = async () => {
 
             if (response.user.name && response.access_token) {
                 // Guardamos el token y el nombre de usuario en el store
+                
+                console.log(response.user.name, response.access_token);
+                
                 auth.login(response.user.name, response.access_token)
                 localStorage.setItem('authToken', response.access_token)
                 localStorage.setItem('authUsername', response.user.name)

@@ -1,7 +1,7 @@
 <template>
     <div>
         <img src="../public/img/kalioMonster.webp" alt="" srcset="">
-        <button><img src="../public/img/plus.svg" alt="" srcset=""></button>
+        <button><img src="../public/img/plus.svg" alt="" srcset="" @click="addConsum"></button>
     </div>
 </template>
 
@@ -14,7 +14,9 @@ export default {
         };
     },
     methods: {
-        // Your component methods here
+        addConsum() {
+            this.$router.push('/addConsum');
+        }
     },
     computed: {
         // Your computed properties here

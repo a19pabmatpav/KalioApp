@@ -3,19 +3,32 @@ export const useAuthStore = defineStore('auth', {
     username: '',
     token: '',
     repte: '',
+    consumDia: '',
+    consums: [],
     authenticated: false
   }),
   actions: {
-    login(username, token) {
+    login(username, tokenP) {
       this.username = username
-      this.token = token
+      this.token = tokenP
       this.authenticated = true
     },
     logout() {
+      this.username = '',
+      this.token = '',
+      this.repte = '',
+      this.consumDia = '',
+      this.consums = [],
       this.authenticated = false
     },
     setRepte(repte) {
       this.repte = repte
+    },
+    addConsumDia(consumit) {
+      this.consumDia + consumit
+    },
+    setConsums(historial) {
+      this.consums = historial
     }
 
   },
