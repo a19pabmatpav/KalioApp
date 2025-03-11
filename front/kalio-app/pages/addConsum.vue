@@ -8,21 +8,6 @@
 definePageMeta({
   middleware: 'auth'
 })
-
-export default {
-    name: 'AddConsum',
-    data() {
-        return {
-            // Your data properties here
-        };
-    },
-    methods: {
-        // Your methods here
-    },
-    mounted() {
-        // Your mounted hook code here
-    }
-};
 </script>
 
 <style scoped>
