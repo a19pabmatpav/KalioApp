@@ -43,25 +43,24 @@ const login = async () => {
             if (response.user.name && response.access_token) {
                 // Guardamos el token y el nombre de usuario en el store
                 
-                console.log(response.user.name, response.access_token);
-                
+                console.log(response.user.name, response.access_token, response.consumDia);
                 auth.login(response.user.name, response.access_token)
                 localStorage.setItem('authToken', response.access_token)
                 localStorage.setItem('authUsername', response.user.name)
                 // Redirigimos a la vista principal
                 if (response.repte) {
                     auth.setRepte(response.repte)
+                    auth.addConsumDia(JSON.parse(JSON.stringify(response.consumDia)))
                     localStorage.setItem('repte', response.repte)
                     router.push('/mainView')
                 } else {
                     router.push('/repte')
                 }
             } else {
-                alert('Invalid credentials')
+                console.error('Invalid credentials')
             }
         } catch (error) {
             console.error('Error during login:', error)
-            alert('There was an error logging in.')
         }
     } else {
         alert('Please fill in all fields.')

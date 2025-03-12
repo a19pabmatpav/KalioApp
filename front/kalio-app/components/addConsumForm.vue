@@ -105,6 +105,7 @@ export default {
             })
             .then((response) => {
                 console.log('Success:', response);
+                auth.addConsumDia(response.calories);
                 this.$router.push('/mainView');
             }).catch((error) => {
                 console.error('Error:', error);

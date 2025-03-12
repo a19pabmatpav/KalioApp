@@ -1,7 +1,8 @@
 <template>
     <div class="progress-bar">
-        <h2>Progress Bar</h2>
-        <div class="progress" :style="{ width: barraProgres + '%' }"></div>
+        <img src="../public/img/flag.svg" alt="" srcset="">
+        <div class="progress" :style="{ width: barraProgres + '%' }"></div><img src="../public/img/flag-fill.svg" alt=""
+            srcset="">
     </div>
 </template>
 
@@ -13,17 +14,21 @@ export default {
     name: 'ProgressBar',
     computed: {
         barraProgres() {
-            const maxCalories = authStore.repte?.limit_calories_diari || 0;  // Obtener el máximo de calorías
-            let consumedCalories = authStore.consumDia || 0;  // Obtener las calorías consumidas
+            const maxCalories = authStore.repte.limit_calories_diari || 0;  // Obtener el máximo de calorías
+            const consumedCalories = authStore.consumDia;  // Obtener las calorías consumidas
             const progress = (consumedCalories / maxCalories) * 100;
+
             return Math.min(progress, 100);
         }
-    }
+    },
 }
 </script>
 
 <style scoped>
 .progress-bar {
+    display: flex;
+    position: relative;
+    align-items: center;
     width: 60vw;
     overflow: hidden;
     margin: 0 auto;

@@ -56,13 +56,26 @@ class AuthController extends Controller
         $hasChallenge = \DB::table('reptes')->where('user_id', $user->id)->exists();
         if ($hasChallenge) {
             $challenge = \DB::table('reptes')->where('user_id', $user->id)->first();
+
+            if ($challenge) {
+                // Obtener el consumo diario y calcular la suma de calorías
+                $consumDia = \DB::table('consums_diari')
+                    ->where('repte_id', $challenge->id)
+                    ->whereDate('created_at', date('Y-m-d'))
+                    ->get();
+
+                $totalCalories = $consumDia->sum('calories_consumides');
+            }
         }
+
+
 
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
             'user' => $user,
-            'repte' => $challenge ?? null
+            'repte' => $challenge ?? null,
+            'consumDia' => $totalCalories ?? null
         ]);
     }
 
