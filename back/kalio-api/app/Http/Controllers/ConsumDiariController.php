@@ -52,9 +52,10 @@ class ConsumDiariController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConsumDiari $consumDiari)
+    public function show(ConsumDiari $repte_id)
     {
-        //
+        $consums = ConsumDiari::where('consums_diari', $repte_id->id)->get();
+        return response()->json($consums);
     }
 
     /**

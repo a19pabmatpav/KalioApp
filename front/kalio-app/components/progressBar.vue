@@ -15,7 +15,8 @@ export default {
     computed: {
         barraProgres() {
             const maxCalories = authStore.repte.limit_calories_diari || 0;  // Obtener el máximo de calorías
-            const consumedCalories = authStore.consumDia;  // Obtener las calorías consumidas
+            const consumedCalories = authStore.consumit;  // Obtener las calorías consumidas
+            console.log(consumedCalories);
             const progress = (consumedCalories / maxCalories) * 100;
 
             return Math.min(progress, 100);

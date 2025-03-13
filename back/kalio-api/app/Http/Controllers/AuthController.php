@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
@@ -58,14 +59,19 @@ class AuthController extends Controller
             $challenge = \DB::table('reptes')->where('user_id', $user->id)->first();
 
             if ($challenge) {
-                // Obtener el consumo diario y calcular la suma de calorías
                 $consumDia = \DB::table('consums_diari')
                     ->where('repte_id', $challenge->id)
                     ->whereDate('created_at', date('Y-m-d'))
                     ->get();
 
-                $totalCalories = $consumDia->sum('calories_consumides');
+                // Verificar qué datos está trayendo
+                Log::info('Datos de consumDia:', $consumDia->toArray());
+
+                // Asegurar que sumamos correctamente
+                $totalCalories = $consumDia->sum(fn($item) => $item->calories_consumides ?? 0);
+                Log::info('Total de calorías consumidas:', ['totalCalories' => $totalCalories]);
             }
+
         }
 
 
@@ -75,7 +81,8 @@ class AuthController extends Controller
             'token_type' => 'Bearer',
             'user' => $user,
             'repte' => $challenge ?? null,
-            'consumDia' => $totalCalories ?? null
+            'consumDia' => $totalCalories ?? null,
+            'consums' => $consumDia ?? null
         ]);
     }
 

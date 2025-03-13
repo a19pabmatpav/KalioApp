@@ -50,7 +50,8 @@ const login = async () => {
                 // Redirigimos a la vista principal
                 if (response.repte) {
                     auth.setRepte(response.repte)
-                    auth.addConsumDia(JSON.parse(JSON.stringify(response.consumDia)))
+                    auth.addConsumDia(response.consumDia)
+                    auth.setConsums(response.consums);
                     localStorage.setItem('repte', response.repte)
                     router.push('/mainView')
                 } else {

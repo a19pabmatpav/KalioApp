@@ -83,6 +83,7 @@ export default {
             },
         async addConsum() {
             const auth = useAuthStore()
+            const router = useRouter()
             const repte_id = auth.repte.id;
 
             const consum = {
@@ -105,11 +106,12 @@ export default {
             })
             .then((response) => {
                 console.log('Success:', response);
-                auth.addConsumDia(response.calories);
-                this.$router.push('/mainView');
+                auth.addConsumDia(response.consum.calories_consumides);
+                auth.setConsums(response.consum);
             }).catch((error) => {
                 console.error('Error:', error);
             });
+            router.push('/mainView')
         },
 }};
 </script>

@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar consum diari
+Route::get('/historic', [HistoricController::class, 'index']); // Obtener histórico de consums diaris
+Route::get('/historic/{id}', [HistoricController::class, 'show']); // Obtener histórico de consums diaris de un usuario
 
 //
 Route::middleware('auth:sanctum')->group(function () {

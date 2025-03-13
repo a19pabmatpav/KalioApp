@@ -3,7 +3,7 @@ export const useAuthStore = defineStore('auth', {
     username: '',
     token: '',
     repte: '',
-    consumDia: [],
+    consumDia: 0,
     consums: [],
     authenticated: false
   }),
@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
       this.username = '',
       this.token = '',
       this.repte = '',
-      this.consumDia = '',
+      this.consumDia = 0,
       this.consums = [],
       this.authenticated = false
     },
@@ -25,16 +25,21 @@ export const useAuthStore = defineStore('auth', {
       this.repte = repte
     },
     addConsumDia(consumit) {
+      console.log("PREConsumit: " + consumit);
       this.consumDia += consumit
+      console.log("POSConsumit: " + this.consumDia);      
     },
     setConsums(historial) {
-      this.consums = historial
+      console.log("PREConsums: " + historial);
+      this.consums.push(historial);
+      console.log("POSConsums: " + this.consums);
     }
 
   },
   getters: {
     isAuthenticated: (state) => !!state.authenticated,
     name: (state) => state.username,
+    consumit: (state) => state.consumDia,
   }
 
 })
