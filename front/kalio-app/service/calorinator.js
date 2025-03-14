@@ -23,13 +23,12 @@ export default {
     try {
       const response = await $fetch(`https://api.spoonacular.com/food/ingredients/search?query=${foodItem}`, {
         params: {
-          apiKey: process.env.SPOONACULAR_API_KEY,  // Asegúrate de configurar esta clave en tus variables de entorno
-          language: 'en',  // Devuelve la información en inglés
+          apiKey: process.env.SPOONACULAR_API_KEY,
         },
       });
       foodId = response.results[0].id;
     } catch (error) {
-      console.error('Error fetching data from Spoonacular API:', error);
+      console.error('Error fetching ingredientID from Spoonacular API:', error);
       return null;
     }
 
@@ -43,7 +42,7 @@ export default {
       });
       return response.nutrition.nutrients;
     } catch (error) {
-      console.error('Error fetching data from Spoonacular API:', error);
+      console.error('Error fetching ingredient data from Spoonacular API:', error);
       return null;
     }
   },
