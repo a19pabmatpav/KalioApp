@@ -40,7 +40,8 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: (state) => !!state.authenticated,
     name: (state) => state.username,
     consumit: (state) => state.consumDia,
-  }
+  },
+  persist: true
 
 })
 
