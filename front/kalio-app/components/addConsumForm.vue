@@ -125,12 +125,22 @@ export default {
             const translator = translator()
             const calorinator = calorinator()
             const repte_id = auth.repte.id;
+            const consumedCalories = 0;
 
             const consum = {
                 alimentos: this.alimentos,
                 liquidos: this.liquidos,
             }
-            const consumedCalories = calorinator.getNutritionData(consum);
+            if (this.platOingredient === 'plat') {
+                //const translatedConsum = translator.translateTextEn(consum);
+                //this.consumedCalories = calorinator.getCalories(consum, 'plat');
+                console.log('En construccion');
+            } else {
+                //const translatedConsum = translator.translateTextEn(consum);
+                this.alimentos.forEach(ingredient => {
+                    this.consumedCalories = calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
+                });
+            }
 
             const response = await $fetch('http://localhost:8000/api/addConsum', {
                 method: 'POST',

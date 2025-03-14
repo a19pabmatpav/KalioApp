@@ -6,5 +6,10 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
   ],
-  
+  runtimeConfig: {
+    public: {
+      GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+      SPOONACULAR_API_KEY: process.env.SPOONACULAR_API_KEY
+    }
+  }
 })
