@@ -93,6 +93,8 @@
 </template>
 
 <script>
+import {useCalorinator} from "../services/calorinator";
+
 export default {
     name: 'AddConsumForm',
     data() {
@@ -119,27 +121,24 @@ export default {
                 cantidad: this.cantidadLiquido,
             });
         },
+
+        // Función para añadir un consumo de ingredientes
         async addConsumIngredient() {
             const auth = useAuthStore()
             const router = useRouter()
-            const translator = translator()
-            const calorinator = calorinator()
+            const calorinator = useCalorinator()
+            //const translator = translator()
+            let consumedCalories = 0;
             const repte_id = auth.repte.id;
-            const consumedCalories = 0;
 
             const consum = {
                 alimentos: this.alimentos,
                 liquidos: this.liquidos,
             }
-            if (this.platOingredient === 'plat') {
-                //const translatedConsum = translator.translateTextEn(consum);
-                //this.consumedCalories = calorinator.getCalories(consum, 'plat');
-                console.log('En construccion');
-            } else {
-                //const translatedConsum = translator.translateTextEn(consum);
-                this.alimentos.forEach(ingredient => {
-                    this.consumedCalories = calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
-                });
+            //const translatedConsum = translator.translateTextEn(consum);
+            for (let ingredient of this.alimentos) {
+                const calories = await calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
+                consumedCalories += calories || 0;
             }
 
             const response = await $fetch('http://localhost:8000/api/addConsum', {
@@ -182,7 +181,7 @@ export default {
                 },
                 body: JSON.stringify({
                     repte_id: repte_id,
-                    calories: consumedCalories,
+                    calories: 0,
                     data: new Date().toISOString().split('T')[0]
                 }),
             })
