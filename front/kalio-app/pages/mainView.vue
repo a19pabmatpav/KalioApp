@@ -7,7 +7,7 @@ definePageMeta({
 <template>
 <progressBar />
 <kalio />
-<stats />
+<statsConsum />
 </template>
 
 <style>
