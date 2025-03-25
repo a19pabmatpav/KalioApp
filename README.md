@@ -99,4 +99,6 @@ El projecte es troba en fase de desenvolupament. Actualment, la funcionalitat de
 **Més informació:**
 Per a més detalls sobre el desenvolupament del projecte, consulteu la documentació del gestor de tasques i el prototip gràfic en els enllaços proporcionats.
 ```
+a19pabmatpav@inspedralbes.cat
 
+```
