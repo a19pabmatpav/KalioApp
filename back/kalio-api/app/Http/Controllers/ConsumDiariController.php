@@ -52,11 +52,22 @@ class ConsumDiariController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ConsumDiari $repte_id)
+    public function show($repte_id)
     {
-        $consums = ConsumDiari::where('consums_diari', $repte_id->id)->get();
+        $hoy = date('Y-m-d');
+
+        $consums = ConsumDiari::where('repte_id', $repte_id)
+            ->where('data', $hoy)
+            ->get();
+
+        if ($consums->isEmpty()) {
+
+            return response()->json(['error' => 'No s\'han trobat consums per a aquest repte avui.'], 404);
+        }
+
         return response()->json($consums);
     }
+
 
     /**
      * Show the form for editing the specified resource.

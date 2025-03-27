@@ -177,11 +177,11 @@ export default {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Bearer': localStorage.getItem('authToken'),
+                    'Bearer': usePinia().state.authToken,
                 },
                 body: JSON.stringify({
                     repte_id: repte_id,
-                    calories: 0,
+                    calories: consumedCalories,
                     data: new Date().toISOString().split('T')[0]
                 }),
             })

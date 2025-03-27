@@ -27,6 +27,8 @@
 // Importar Chart de Chart.js
 import { Chart } from 'chart.js/auto';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
+const piniaStore = useAuthStore(); // Reemplaza con el nombre real de tu store
+const repteId = piniaStore.repte.id; // Accede al repte_id desde el estado
 
 // Referencias para cada gráfico
 const caloriesChart = ref(null);
@@ -35,9 +37,34 @@ const sugarChart = ref(null);
 const waterChart = ref(null);
 const statsChartComplet = ref(null);
 
+// Datos máximos para calcular porcentajes
+const maxStats = {
+  calories: 3000,
+  proteins: 200,
+  sugars: 100,
+  water: 3000,
+};
+
+// Datos de consumo diarios
+const dades = ref({
+  dailyStats: {
+    calories: 0,
+    proteins: 0,
+    sugars: 0,
+    water: 0,
+  },
+  percentStats: {
+    calories: 30,
+    proteins: 50,
+    sugars: 40,
+    water: 80,
+  },
+});
+
 // Crear un gráfico de barras
 const createBarChart = (canvasId, data, label) => {
-  const ctx = document.getElementById(canvasId).getContext('2d');
+  const ctx = document.getElementById(canvasId)?.getContext('2d');
+  if (!ctx) return;
   return new Chart(ctx, {
     type: 'bar',
     data: {
@@ -56,25 +83,18 @@ const createBarChart = (canvasId, data, label) => {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: {
-          display: false,
-        },
-        y: {
-          display: false,
-        },
+        x: { display: false },
+        y: { display: false },
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
+      plugins: { legend: { display: false } },
     },
   });
 };
 
 // Crear gráfico polar area
 const createPolarAreaChart = (canvasId, data) => {
-  const ctx = document.getElementById(canvasId).getContext('2d');
+  const ctx = document.getElementById(canvasId)?.getContext('2d');
+  if (!ctx) return;
   return new Chart(ctx, {
     type: 'polarArea',
     data: {
@@ -89,53 +109,61 @@ const createPolarAreaChart = (canvasId, data) => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
+      plugins: { legend: { display: false } },
     },
   });
 };
 
-function getConsumData() {
-  return {
-    // Datos de consumo diario de ejemplo
-    dailyStats: {
-      calories: 2000,
-      proteins: 155,
-      sugars: 80,
-      water: 1500
-    },// Datos de consumo máximo
-    maxStats: {
-      calories: 3000,
-      proteins: 200,
-      sugars: 100,
-      water: 3000
-    },
-    percentStats: {
-      calories: 2000 / 3000 * 100,
-      proteins: 155 / 200 * 100,
-      sugars: 80 / 100 * 100,
-      water: 1500 / 3000 * 100
-    }
-  };
-}
+// Obtener datos de consumo
+const getConsumData = async () => {
+  console.log('buscando datos...');
+  
+   try {
+     const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
+       method: 'GET',
+       headers: { 'Content-Type': 'application/json' },
+       authorization: `Bearer ${localStorage.getItem('token')}`,
+     });
+     const data = await response.json();
+     console.log(data);
+    
+      // Actualizar datos
+      dades.value.dailyStats = {
+        calories: data.calories,
+        proteins: data.proteins,
+        sugars: data.sugars,
+        water: data.water,
+      }
+      dades.value.percentStats = {
+        calories: (data.calories / maxStats.calories) * 100,
+        proteins: (data.proteins / maxStats.proteins) * 100,
+        sugars: (data.sugars / maxStats.sugars) * 100,
+        water: (data.water / maxStats.water) * 100,
+      };
+  } catch (error) {
+    console.error("Error al obtener datos:", error);
+  }
+};
 
+// Mostrar información
 const showInfo = () => {
-  alert("Aquí pots veure com ha estat el teu consum d'avui.\nTens 4 gràfics que mostren el percentatge de calories, proteïnes, sucres i aigua que has consumit.\nAl final, trobaràs un gràfic complet que reuneix totes aquestes dades per ajudar-te a entendre millor el teu consum total.");
-
+  alert(`Aquí pots veure com ha estat el teu consum d'avui.
+Tens 4 gràfics que mostren el percentatge de calories, proteïnes, sucres i aigua que has consumit.
+Al final, trobaràs un gràfic complet que reuneix totes aquestes dades per ajudar-te a entendre millor el teu consum total.`);
 };
 
 // Montar los gráficos al cargar el componente
-onMounted(() => {
-  const data = getConsumData();
-  caloriesChart.value = createBarChart('caloriesChart', data.percentStats.calories, 'Calories');
-  proteinChart.value = createBarChart('proteinChart', data.percentStats.proteins, 'Proteïnes');
-  sugarChart.value = createBarChart('sugarChart', data.percentStats.sugars, 'Sucres');
-  waterChart.value = createBarChart('waterChart', data.percentStats.water, 'Aigua');
+onMounted(async () => {
+  await getConsumData(); // Esperar a obtener los datos
 
-  statsChartComplet.value = createPolarAreaChart('statsChartComplet', data.percentStats);
+  // Crear los gráficos
+  caloriesChart.value = createBarChart('caloriesChart', dades.value.percentStats.calories, 'Calories');
+  proteinChart.value = createBarChart('proteinChart', dades.value.percentStats.proteins, 'Proteïnes');
+  sugarChart.value = createBarChart('sugarChart', dades.value.percentStats.sugars, 'Sucres');
+  waterChart.value = createBarChart('waterChart', dades.value.percentStats.water, 'Aigua');
+
+  // Gráfico completo
+  statsChartComplet.value = createPolarAreaChart('statsChartComplet', dades.value.percentStats);
 });
 
 // Destruir los gráficos al desmontar el componente
@@ -147,6 +175,7 @@ onBeforeUnmount(() => {
   statsChartComplet.value?.destroy();
 });
 </script>
+
 
 <style scoped>
 .stats-consum {
@@ -184,7 +213,7 @@ canvas {
 }
 
 img {
-  
+
   position: absolute;
   right: 25px;
 }

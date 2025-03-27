@@ -84,7 +84,7 @@ class Calorinator {
     }else{
       const foodId = await this.ingredientManager.getIngredientId(foodItem);
       console.log('id del ingrediente encontrado: ' + foodId);
-      const foodCalories = parseInt(await this.dishManager.getNutritionData(foodItem)*quantity);
+      const foodCalories = parseInt(await this.ingredientManager.getNutritionData(foodItem)*quantity);
       console.log('calorias del plato: ' + foodCalories?.results?.[0]?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount);
       return foodCalories?.results?.[0]?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount;
     }
