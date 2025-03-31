@@ -3,16 +3,16 @@
     <h1>Estadístiques de Consum:</h1>
 
     <div class="grafic">
-      <canvas id="caloriesChart"></canvas>
+      <canvas id="caloriesChart" ref="caloriesChart"></canvas>
     </div>
     <div class="grafic">
-      <canvas id="proteinChart"></canvas>
+      <canvas id="proteinChart" ref="proteinChart"></canvas>
     </div>
     <div class="grafic">
-      <canvas id="sugarChart"></canvas>
+      <canvas id="sugarChart" ref="sugarChart"></canvas>
     </div>
     <div class="grafic">
-      <canvas id="waterChart"></canvas>
+      <canvas id="waterChart" ref="waterChart"></canvas>
     </div>
     <img src="../public/img/info-circle.svg" alt="infoBtn" @click="showInfo" />
     <div class="moreStats">
@@ -117,16 +117,32 @@ const createPolarAreaChart = (canvasId, data) => {
 // Obtener datos de consumo
 const getConsumData = async () => {
   console.log('buscando datos...');
-  
-   try {
-     const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
-       method: 'GET',
-       headers: { 'Content-Type': 'application/json' },
-       authorization: `Bearer ${localStorage.getItem('token')}`,
-     });
-     const data = await response.json();
-     console.log(data);
-    
+
+  try {
+    const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+    if (response.status === 404) {
+      // Si no hay datos, inicializar con ceros
+      dades.value.dailyStats = {
+        calories: 0,
+        proteins: 0,
+        sugars: 0,
+        water: 0,
+      };
+      dades.value.percentStats = {
+        calories: 0,
+        proteins: 0,
+        sugars: 0,
+        water: 0,
+      };
+      console.log("No s'han trobat consums per a aquest repte avui.");
+      return;
+    } else {
+      const data = await response.json();
+      console.log(data);
       // Actualizar datos
       dades.value.dailyStats = {
         calories: data.calories,
@@ -136,10 +152,19 @@ const getConsumData = async () => {
       }
       dades.value.percentStats = {
         calories: (data.calories / maxStats.calories) * 100,
-        proteins: (data.proteins / maxStats.proteins) * 100,
-        sugars: (data.sugars / maxStats.sugars) * 100,
-        water: (data.water / maxStats.water) * 100,
-      };
+        proteins: (data.proteins / maxStats.proteins) * 10,
+        sugars: (data.sugars / maxStats.sugars) * 10,
+        water: (data.water / maxStats.water) * 10,
+      }
+      this.caloriesChart = createBarChart('caloriesChart', dades.value.percentStats.calories, 'Calories');
+      this.proteinChart = createBarChart('proteinChart', dades.value.percentStats.proteins, 'Proteïnes');
+      this.sugarChart = createBarChart('sugarChart', dades.value.percentStats.sugars, 'Sucres');
+      this.waterChart = createBarChart('waterChart', dades.value.percentStats.water, 'Aigua');
+      this.statsChartComplet = createPolarAreaChart('statsChartComplet', dades.value.percentStats);
+      console.log('Dades actualitzades:', dades.value, caloriesChart.value, proteinChart.value, sugarChart.value, waterChart.value, statsChartComplet.value);
+
+      return { status: 'success'};
+    };
   } catch (error) {
     console.error("Error al obtener datos:", error);
   }

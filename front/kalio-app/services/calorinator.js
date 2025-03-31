@@ -40,25 +40,28 @@ class DishManager extends ApiClient {
 
 // Clase para manejar operaciones de ingredientes
 class IngredientManager extends ApiClient {
+  // Obtiene el ID del ingrediente
   async getIngredientId(foodItem) {
     const data = await this.makeRequest(`https://api.spoonacular.com/food/ingredients/search`, {
-      query: foodItem
+      query: foodItem,
+      number: 1
     });
-    console.log('id del ingrediente encontrado: ' + data?.results?.[0]?.id);
-    
-    return data?.results?.[0]?.id || 0;
+    const foodId = data?.results?.[0]?.id;
+    console.log('🆔 ID del ingrediente encontrado:', foodId);
+    return foodId || 0;
   }
 
+  // Obtiene las calorías del ingrediente
   async getNutritionData(foodItem) {
     const foodId = await this.getIngredientId(foodItem);
-    
     if (!foodId) return null;
-    
+
     const data = await this.makeRequest(`https://api.spoonacular.com/food/ingredients/${foodId}/information`, {
       amount: 1
     });
-    
-    return data?.nutrition?.nutrients || null;
+    const calories = data?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount;
+    console.log('🔥 Calorías del ingrediente:', calories);
+    return calories || null;
   }
 }
 
@@ -79,14 +82,18 @@ class Calorinator {
 
   async getCalories(foodItem, quantity, platOingredient) {
     if (platOingredient === 'plat') {
-      console.log('En construcción');
+      console.log('🚧 Funcionalidad en construcción para platos.');
       return null;
-    }else{
-      const foodId = await this.ingredientManager.getIngredientId(foodItem);
-      console.log('id del ingrediente encontrado: ' + foodId);
-      const foodCalories = parseInt(await this.ingredientManager.getNutritionData(foodItem)*quantity);
-      console.log('calorias del plato: ' + foodCalories?.results?.[0]?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount);
-      return foodCalories?.results?.[0]?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount;
+    } else {
+      console.log(`📦 Obteniendo calorías de ${quantity} unidad(es) de ${foodItem}.`);
+      const caloriesPerUnit = await this.ingredientManager.getNutritionData(foodItem);
+      if (caloriesPerUnit === null) {
+        console.error('❌ No se pudo obtener la información nutricional.');
+        return null;
+      }
+      const totalCalories = caloriesPerUnit * quantity;
+      console.log(`🔥 Calorías totales para ${quantity} unidad(es) de ${foodItem}: ${totalCalories}`);
+      return parseInt(totalCalories);
     }
   }
 }
@@ -94,7 +101,7 @@ class Calorinator {
 // Hook composable para utilizar en componentes Vue
 export const useCalorinator = () => {
   const calorinator = new Calorinator();
-  
+
   return {
     async getDishNutritionData(dish) {
       return await calorinator.getDishNutritionData(dish);

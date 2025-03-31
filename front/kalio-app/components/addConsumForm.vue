@@ -138,7 +138,9 @@ export default {
             //const translatedConsum = translator.translateTextEn(consum);
             for (let ingredient of this.alimentos) {
                 const calories = await calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
-                consumedCalories += calories || 0;
+                console.log('calories al front', calories);
+                
+                this.consumedCalories += calories;
             }
 
             const response = await $fetch('http://localhost:8000/api/addConsum', {
@@ -165,6 +167,7 @@ export default {
         async addConsumPlat() {
             const auth = useAuthStore()
             const router = useRouter()
+            const calorinator = useCalorinator()
             const repte_id = auth.repte.id;
 
             const consum = {

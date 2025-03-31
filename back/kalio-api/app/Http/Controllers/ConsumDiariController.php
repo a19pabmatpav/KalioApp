@@ -59,13 +59,20 @@ class ConsumDiariController extends Controller
         $consums = ConsumDiari::where('repte_id', $repte_id)
             ->where('data', $hoy)
             ->get();
+        $totalCalories = $consums->sum('calories_consumides');
+        $totalConsumit = [
+            'calories' => $totalCalories,
+            'proteins' => 0,
+            'sugar' => 0,
+            'water' => 0,
+        ];
 
         if ($consums->isEmpty()) {
 
             return response()->json(['error' => 'No s\'han trobat consums per a aquest repte avui.'], 404);
         }
 
-        return response()->json($consums);
+        return response()->json($totalConsumit);
     }
 
 
