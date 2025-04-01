@@ -29,6 +29,8 @@ import { Chart } from 'chart.js/auto';
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 const piniaStore = useAuthStore(); // Reemplaza con el nombre real de tu store
 const repteId = piniaStore.repte.id; // Accede al repte_id desde el estado
+const maxCalories = piniaStore.repte.limit_calories_diari; // Accede al límite de calorías desde el estado
+console.log(maxCalories);
 
 // Referencias para cada gráfico
 const caloriesChart = ref(null);
@@ -39,10 +41,10 @@ const statsChartComplet = ref(null);
 
 // Datos máximos para calcular porcentajes
 const maxStats = {
-  calories: 3000,
-  proteins: 200,
-  sugars: 100,
-  water: 3000,
+  calories: maxCalories,
+  proteins: ref(null),
+  sugars: ref(null),
+  water: ref(null),
 };
 
 // Datos de consumo diarios
@@ -65,16 +67,16 @@ const dades = ref({
 const createBarChart = (canvasId, data, label) => {
   const ctx = document.getElementById(canvasId)?.getContext('2d');
   if (!ctx) return;
+
   return new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Avui'],
+      labels: ['Avui'], // Etiqueta para el eje X
       datasets: [
         {
-          label: label,
-          data: [data],
+          label: label, // Etiqueta del dataset
+          data: [data], // Pasar el valor dinámico como un array
           backgroundColor: '#4ECDC4',
-          borderColor: '#292F36',
           borderWidth: 2,
         },
       ],
@@ -83,10 +85,19 @@ const createBarChart = (canvasId, data, label) => {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: { display: false },
-        y: { display: false },
+        x: {
+          display: true, // Mostrar el eje X
+        },
+        y: {
+          beginAtZero: true, // Asegurarse de que el eje Y comience en 0
+          max: 100, // Establecer el valor máximo en 100 para trabajar con porcentajes
+        },
       },
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: {
+          display: true, // Mostrar la leyenda
+        },
+      },
     },
   });
 };
@@ -116,6 +127,7 @@ const createPolarAreaChart = (canvasId, data) => {
 
 // Obtener datos de consumo
 const getConsumData = async () => {
+  console.log('maxStats', maxStats);
   console.log('buscando datos...');
 
   try {
@@ -143,6 +155,8 @@ const getConsumData = async () => {
     } else {
       const data = await response.json();
       console.log(data);
+      console.log(data.calories);
+      
       // Actualizar datos
       dades.value.dailyStats = {
         calories: data.calories,
@@ -152,16 +166,11 @@ const getConsumData = async () => {
       }
       dades.value.percentStats = {
         calories: (data.calories / maxStats.calories) * 100,
-        proteins: (data.proteins / maxStats.proteins) * 10,
-        sugars: (data.sugars / maxStats.sugars) * 10,
-        water: (data.water / maxStats.water) * 10,
+        // proteins: (data.proteins / this.maxStats.proteins) * 10,
+        // sugars: (data.sugars / this.maxStats.sugars) * 10,
+        // water: (data.water / this.maxStats.water) * 10,
       }
-      this.caloriesChart = createBarChart('caloriesChart', dades.value.percentStats.calories, 'Calories');
-      this.proteinChart = createBarChart('proteinChart', dades.value.percentStats.proteins, 'Proteïnes');
-      this.sugarChart = createBarChart('sugarChart', dades.value.percentStats.sugars, 'Sucres');
-      this.waterChart = createBarChart('waterChart', dades.value.percentStats.water, 'Aigua');
-      this.statsChartComplet = createPolarAreaChart('statsChartComplet', dades.value.percentStats);
-      console.log('Dades actualitzades:', dades.value, caloriesChart.value, proteinChart.value, sugarChart.value, waterChart.value, statsChartComplet.value);
+      console.log('Dades actualitzades:', dades.value);
 
       return { status: 'success'};
     };

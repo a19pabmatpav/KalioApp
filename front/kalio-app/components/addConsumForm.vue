@@ -128,7 +128,8 @@ export default {
             const router = useRouter()
             const calorinator = useCalorinator()
             //const translator = translator()
-            let consumedCalories = 0;
+            let consumedCalories = auth.consumDia;
+            
             const repte_id = auth.repte.id;
 
             const consum = {
@@ -136,11 +137,15 @@ export default {
                 liquidos: this.liquidos,
             }
             //const translatedConsum = translator.translateTextEn(consum);
-            for (let ingredient of this.alimentos) {
+            for (let ingredient of consum.alimentos) {
+                console.log('ingredient', ingredient);
                 const calories = await calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
                 console.log('calories al front', calories);
+                console.log('calories PREconsumides', consumedCalories);
                 
-                this.consumedCalories += calories;
+                
+                consumedCalories += calories;
+                console.log('calories POSTconsumides', consumedCalories);
             }
 
             const response = await $fetch('http://localhost:8000/api/addConsum', {
