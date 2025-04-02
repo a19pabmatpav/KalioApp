@@ -33,7 +33,7 @@ const register = async () => {
         console.log(username.value, email.value, password.value);
         try {
 
-            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/register', {
+            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/api/register', {
                 method: 'POST',
                 body: JSON.stringify({
                     username: username.value,

@@ -148,7 +148,7 @@ export default {
                 console.log('calories POSTconsumides', consumedCalories);
             }
 
-            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/addConsum', {
+            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/api/addConsum', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ export default {
             }
             const consumedCalories = calorinator.getDishNutritionData(consum);
 
-            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/addConsum', {
+            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/api/addConsum', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
