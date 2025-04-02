@@ -166,9 +166,9 @@ const getConsumData = async () => {
       }
       dades.value.percentStats = {
         calories: (data.calories / maxStats.calories) * 100,
-        // proteins: (data.proteins / this.maxStats.proteins) * 10,
-        // sugars: (data.sugars / this.maxStats.sugars) * 10,
-        // water: (data.water / this.maxStats.water) * 10,
+         proteins: (data.proteins / maxStats.proteins) * 100,
+         sugars: (data.sugars / maxStats.sugars) * 100,
+         water: (data.water / maxStats.water) * 100,
       }
       console.log('Dades actualitzades:', dades.value);
 
