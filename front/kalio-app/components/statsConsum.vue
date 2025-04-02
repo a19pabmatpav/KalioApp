@@ -131,7 +131,7 @@ const getConsumData = async () => {
   console.log('buscando datos...');
 
   try {
-    const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
+    const response = await fetch(`http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/consums/${repteId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       authorization: `Bearer ${localStorage.getItem('token')}`,

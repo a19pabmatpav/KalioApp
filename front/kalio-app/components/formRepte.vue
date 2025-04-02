@@ -35,7 +35,7 @@
   
     console.log('Datos del repte:', repteData)
     
-    const response = await $fetch('http://localhost:8000/api/reptes', {
+    const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/reptes', {
       method: 'POST',
       body: JSON.stringify(repteData),
       headers: {

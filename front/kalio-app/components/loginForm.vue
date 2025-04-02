@@ -31,7 +31,7 @@ const password = ref('')
 const login = async () => {
     if (username.value && email.value && password.value) {
         try {
-            const response = await $fetch('http://localhost:8000/api/login', {
+            const response = await $fetch('http://kalioapi.a19pabmatpav.daw.inspedralbes.cat/public/login', {
                 method: 'POST',
                 body: JSON.stringify({
                     username: username.value,
