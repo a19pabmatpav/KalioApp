@@ -1,75 +1,82 @@
 <template>
-    <div class="detector">
-      <h1>Afegir consum</h1>
-      
+  <div>
+    <h2>Pregunta a Gemini</h2>
+    <div>
+      <input type="file" accept="image/*" @change="capturarFoto" />
     </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'fotodetector',
-    data() {
-      return {
-        alimento: '',
-        alimentos: [],
-        liquido: 'agua',
-        liquidos: [],
+    <!-- <button :disabled="!imagenBase64" @click="consultarGemini">Enviar</button> -->
+
+    <div v-if="respuesta">
+      <h3>Resposta:</h3>
+      <pre>{{ respuesta }}</pre>
+    </div>
+  </div>
+</template>
+
+<script>
+definePageMeta({
+  middleware: 'auth',
+})
+
+import { enviarConsulta } from "@/services/googleGemini.js";
+
+
+export default {
+  name: "Fotodetector",
+  data() {
+    return {
+      imagenBase64: null,
+      respuesta: null,
+    };
+  },
+  methods: {
+    capturarFoto(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagenBase64 = reader.result.split(",")[1]; // quitamos el prefix data:image...
       };
+      reader.readAsDataURL(file);
     },
-    methods: {
-      agregarAlimento() {
-        this.alimentos.push({
-          alimento: this.alimento,
-        });
-        this.alimento = '';
-      },
-      agregarLiquido() {
-        this.liquidos.push({
-          liquido: this.liquido,
-          cantidad: this.cantidadLiquido,
-        });
-        this.liquido = 'agua';
-        this.cantidadLiquido = 0;
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  .detector {
-    color: white;
-    max-width: 77vw;
-    max-height: 75vh;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #3C3145;
-    background-color: #3C3145;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 75vh;
-  }
-  
-  .detector h1 {
-    color: white;
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  .detector button {
-    background-color: #3C3145;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .detector button:hover {
-    background-color: #5A4B8A;
-  }
-  </style>
-  
+
+    // async consultarGemini() {
+    //   if (!this.imagenBase64) {
+    //     console.warn("No hay imagen para analizar");
+    //     return;
+    //   }
+
+    //   this.respuesta = "Pensant... 🤖";
+
+    //   try {
+    //     const respuestaGemini = await enviarConsulta(this.imagenBase64, "image/jpeg");
+    //     console.log("Respuesta de Gemini:", respuestaGemini); // ✅ Aquí imprimes la respuesta
+    //     this.respuesta = respuestaGemini;
+    //   } catch (error) {
+    //     console.error("Error consultando Gemini:", error);
+    //     this.respuesta = "❌ Error analitzant la imatge";
+    //   }
+    // },
+  },
+};
+</script>
+
+<style scoped>
+input {
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+</style>

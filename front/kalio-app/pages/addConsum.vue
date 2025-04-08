@@ -1,44 +1,49 @@
 <template>
-  <div>
+  <div class="contenedor">
     <h1>Afegir consum</h1>
-    <button @click=formulari>Afegir manualment</button>
-    <button @click=detector>Fotodetector</button>
-  </div>
-  <div>
-    <addConsumForm v-if:actiu="formulari" />
-    <fotodetector v-if:actiu="detector" />
+    <button @click="toggleFormulari">Afegir manualment</button>
+    <button @click="toggleDetector">Fotodetector</button>
+
+    <!-- Render dinámico con transición -->
+    <transition name="fade">
+      <addConsumForm v-if="formulariActiu" />
+    </transition>
+    <transition name="fade">
+      <fotodetector v-if="detectorActiu" />
+    </transition>
   </div>
 </template>
 
 <script>
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
 })
 
 export default {
   data() {
     return {
-      actiu: '',
-    }
+      formulariActiu: false,
+      detectorActiu: false,
+    };
   },
   methods: {
-    formulari() {
-      this.actiu = 'formulari';
+    toggleFormulari() {
+      this.formulariActiu = !this.formulariActiu;
+      if (this.formulariActiu) this.detectorActiu = false;
     },
-    detector() {
-      this.actiu = 'fotodetector';
-    }
-  }
-
-}
-
+    toggleDetector() {
+      this.detectorActiu = !this.detectorActiu;
+      if (this.detectorActiu) this.formulariActiu = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
-div {
+.contenedor {
   color: white;
-  max-width: 77vw;
-  max-height: 75vh;
+  width: 77vw;
+  height: 75vh;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #3C3145;
@@ -47,8 +52,18 @@ div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 75vh;
-  padding: 20px;
+  justify-content: start;
+  gap: 20px;
+  min-height: auto;
+}
+
+/* Transiciones suaves */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
