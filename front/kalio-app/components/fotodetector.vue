@@ -2,12 +2,17 @@
   <div>
     <h2>Pregunta a Gemini</h2>
     <div>
-      <input type="file" accept="image/*" @change="capturarFoto" />
+      <video ref="video" autoplay playsinline></video>
+      <button @click="tomarFoto">Capturar Foto</button>
     </div>
-    <!-- <button :disabled="!imagenBase64" @click="consultarGemini">Enviar</button> -->
+
+    <div v-if="imagenBase64">
+      <h3>Imagen Capturada:</h3>
+      <img :src="'data:image/jpeg;base64,' + imagenBase64" alt="Imagen Capturada" />
+    </div>
 
     <div v-if="respuesta">
-      <h3>Resposta:</h3>
+      <h3>Respuesta:</h3>
       <pre>{{ respuesta }}</pre>
     </div>
   </div>
@@ -18,52 +23,60 @@ definePageMeta({
   middleware: 'auth',
 })
 
-import { enviarConsulta } from "@/services/googleGemini.js";
-
-
 export default {
   name: "Fotodetector",
   data() {
     return {
       imagenBase64: null,
       respuesta: null,
+      videoStream: null,
     };
   },
+  mounted() {
+    this.iniciarCamara();
+  },
+  beforeDestroy() {
+    this.detenerCamara();
+  },
   methods: {
-    capturarFoto(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagenBase64 = reader.result.split(",")[1]; // quitamos el prefix data:image...
-      };
-      reader.readAsDataURL(file);
+    async iniciarCamara() {
+      try {
+        // Solicitar acceso a la cámara
+        this.videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const videoElement = this.$refs.video;
+        videoElement.srcObject = this.videoStream;
+      } catch (error) {
+        console.error("Error al acceder a la cámara:", error);
+      }
     },
+    detenerCamara() {
+      if (this.videoStream) {
+        const tracks = this.videoStream.getTracks();
+        tracks.forEach((track) => track.stop());
+      }
+    },
+    tomarFoto() {
+      const videoElement = this.$refs.video;
+      const canvas = document.createElement("canvas");
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
 
-    // async consultarGemini() {
-    //   if (!this.imagenBase64) {
-    //     console.warn("No hay imagen para analizar");
-    //     return;
-    //   }
+      const context = canvas.getContext("2d");
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
 
-    //   this.respuesta = "Pensant... 🤖";
-
-    //   try {
-    //     const respuestaGemini = await enviarConsulta(this.imagenBase64, "image/jpeg");
-    //     console.log("Respuesta de Gemini:", respuestaGemini); // ✅ Aquí imprimes la respuesta
-    //     this.respuesta = respuestaGemini;
-    //   } catch (error) {
-    //     console.error("Error consultando Gemini:", error);
-    //     this.respuesta = "❌ Error analitzant la imatge";
-    //   }
-    // },
+      // Convertir la imagen a Base64
+      this.imagenBase64 = canvas.toDataURL("image/jpeg").split(",")[1];
+    },
   },
 };
 </script>
 
 <style scoped>
-input {
+video {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   margin-bottom: 10px;
 }
 
@@ -71,6 +84,13 @@ button {
   padding: 8px 16px;
   margin-top: 10px;
   cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 pre {
