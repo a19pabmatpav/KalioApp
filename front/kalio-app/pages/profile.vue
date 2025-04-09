@@ -1,12 +1,17 @@
 <template>
     <div class="profile">
-        <h1>Profile Page</h1>
+        <ProgressBar />
+        <Kalio />
     </div>
 </template>
 
 <script>
+definePageMeta({
+  middleware: 'auth',
+})
+
 export default {
-    name: "ProfilePage",
+    name: "Profile",
     data() {
         return {
             // Add your component data here

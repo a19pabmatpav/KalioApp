@@ -1,4 +1,5 @@
 <template>
+  <button><img src="../public/img/plus.svg" alt="" srcset="" @click="addConsum"></button>
   <div class="stats-consum">
     <h1>Estadístiques de Consum:</h1>
 
@@ -208,6 +209,10 @@ onBeforeUnmount(() => {
   waterChart.value?.destroy();
   statsChartComplet.value?.destroy();
 });
+const addConsum = () => {
+  const router = useRouter();
+  router.push('/addConsum');
+};
 </script>
 
 
@@ -250,6 +255,22 @@ img {
 
   position: absolute;
   right: 25px;
+}
+button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FF7A00;
+    margin-top: 2vh;
+    margin-left: 15vw;
+}
+
+button img {
+    width: 30px;
+    height: 30px;
 }
 
 .moreStats {

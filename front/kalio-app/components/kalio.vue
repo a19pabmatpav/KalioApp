@@ -1,7 +1,7 @@
 <template>
     <div>
         <img src="../public/img/kalioMonster.webp" alt="" srcset="">
-        <button><img src="../public/img/plus.svg" alt="" srcset="" @click="addConsum"></button>
+        
     </div>
 </template>
 
@@ -14,9 +14,7 @@ export default {
         };
     },
     methods: {
-        addConsum() {
-            this.$router.push('/addConsum');
-        }
+        
     },
     computed: {
         // Your computed properties here
@@ -35,20 +33,5 @@ img {
     display: block;
 }
 
-button {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #FF7A00;
-    margin-top: 2vh;
-    margin-left: 15vw;
-}
 
-button img {
-    width: 30px;
-    height: 30px;
-}
 </style>
