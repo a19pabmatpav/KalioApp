@@ -2,6 +2,8 @@
     <div class="profile">
         <ProgressBar />
         <Kalio />
+        <ProfileData />
+        <ProfileEditRepte />
     </div>
 </template>
 

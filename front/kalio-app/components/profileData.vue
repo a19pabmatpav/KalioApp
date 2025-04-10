@@ -1,26 +1,76 @@
 <template>
     <div class="profile-data">
-        <!-- Add your template code here -->
+        <div id="carouselExample" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="carousel-item" v-for="(item, index) in items" :key="index" :class="{ active: index === 0 }">
+                    <div class="text-center p-4">
+                        <img :src="item.icono" class="d-block mx-auto mb-3" :alt="item.nombre"
+                            style="width: 100px; height: 100px;" />
+                        <h5>{{ item.nombre }}</h5>
+                        <p>{{ item.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
+
 export default {
     name: "ProfileData",
-    props: {
-        // Define your props here
-    },
-    data() {
+    setup() {
+        const items = ref([]);
+        const error = ref(null);
+
+        // Obtener el ID del usuario desde el store de Pinia
+        const userStore = useUserStore();
+        const userId = userStore.user.id; // Asegúrate de que el store tenga el ID del usuario
+
+        // Obtener los datos al montar el componente
+        onMounted(async () => {
+            const { data, error: fetchError } = await useFetch(`http://localhost:8000/api/users/${userId}/logros`);
+            if (fetchError.value) {
+                console.error('Error fetching data:', fetchError.value);
+                error.value = fetchError.value;
+            } else {
+                console.log('Fetched items:', data.value);
+                items.value = data.value;
+            }
+        });
+
         return {
-            // Define your component's data here
+            items,
+            error,
         };
-    },
-    methods: {
-        // Add your methods here
     },
 };
 </script>
 
 <style scoped>
-/* Add your component-specific styles here */
+/* Estilos específicos del componente */
+.carousel-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carousel-item img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+}
 </style>

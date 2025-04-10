@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Logro;
 
 class User extends Authenticatable
 {
@@ -45,5 +46,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relación con Logro (N:M)
+    public function logros()
+    {
+        return $this->belongsToMany(Logro::class, 'logro_user');
     }
 }

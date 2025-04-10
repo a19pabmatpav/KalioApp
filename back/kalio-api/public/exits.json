@@ -1,0 +1,88 @@
+[
+    {
+      "nombre": "Rutina en marcha",
+      "descripcion": "Has registrado tu consumo durante 5 días no consecutivos.",
+      "icono": "https://www.flaticon.com/free-icon/calendar_747310"
+    },
+    {
+      "nombre": "Analítico",
+      "descripcion": "Has consultado los informes 10 veces.",
+      "icono": "https://www.flaticon.com/free-icon/analytics_921591"
+    },
+    {
+      "nombre": "Hoy mejor que ayer",
+      "descripcion": "Has tenido 3 días seguidos mejorando tu consumo respecto al día anterior.",
+      "icono": "https://www.flaticon.com/free-icon/self-improvement_3696638"
+    },
+    {
+      "nombre": "Día libre?",
+      "descripcion": "Has superado el límite un día pero lo has compensado al día siguiente.",
+      "icono": "https://www.flaticon.com/free-icon/anxiety_5636141"
+    },
+    {
+      "nombre": "Sin parar",
+      "descripcion": "10 días seguidos registrando calorías.",
+      "icono": "https://www.flaticon.com/free-icon/time_15452718"
+    },
+    {
+      "nombre": "Objetivo estable",
+      "descripcion": "Te has mantenido dentro del límite de calorías durante 7 días seguidos.",
+      "icono": "https://www.flaticon.com/free-icon/target_3176324"
+    },
+    {
+      "nombre": "Adaptación inteligente",
+      "descripcion": "Has modificado el reto después de revisar tu rendimiento.",
+      "icono": "https://www.flaticon.com/free-icon/analysis_12392292"
+    },
+    {
+      "nombre": "Sin excusas",
+      "descripcion": "Has registrado calorías a pesar de tener un día de fiesta, viaje o similar.",
+      "icono": "https://www.flaticon.com/free-icon/person_15873103"
+    },
+    {
+      "nombre": "Diario digital",
+      "descripcion": "30 días seguidos registrando.",
+      "icono": "https://www.flaticon.com/free-icon/diary_10748360"
+    },
+    {
+      "nombre": "Control absoluto",
+      "descripcion": "30 días seguidos dentro del límite del reto.",
+      "icono": "https://www.flaticon.com/free-icon/admin-panel_7068006"
+    },
+    {
+      "nombre": "Mi mejor yo",
+      "descripcion": "Has mejorado tu hábito alimentario según los informes.",
+      "icono": "https://www.flaticon.com/free-icon/trophy_1021100"
+    },
+    {
+      "nombre": "El feedback es poder",
+      "descripcion": "Has ajustado hábitos después de ver un pico alto de consumo.",
+      "icono": "https://www.flaticon.com/free-icon/power-button_6048993"
+    },
+    {
+      "nombre": "El maestro del control",
+      "descripcion": "Has consultado informes cada semana durante un mes.",
+      "icono": "https://www.flaticon.com/free-icon/certificate_7559614"
+    },
+    {
+      "nombre": "¡No puedo parar!",
+      "descripcion": "100 días seguidos registrando calorías.",
+      "icono": "https://www.flaticon.com/free-icon/business_13629848"
+    },
+    {
+      "nombre": "Autocontrol zen",
+      "descripcion": "100 días dentro del límite (no necesariamente seguidos).",
+      "icono": "https://www.flaticon.com/free-icon/ying-yang_2105485"
+    },
+    {
+      "nombre": "Imbatible",
+      "descripcion": "Has reducido gradualmente tu límite de calorías y lo has mantenido 3 veces seguidas.",
+      "icono": "https://www.flaticon.com/free-icon/muscle_1845861"
+    },
+    {
+      "nombre": "Contigo hasta el final",
+      "descripcion": "Has estado activo en la app más de 6 meses.",
+      "icono": "https://www.flaticon.com/free-icon/customer-loyalty_5029180"
+    }
+  ]
+  

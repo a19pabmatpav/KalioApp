@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use App\Models\Logro;
+use App\Models\ConsumDiari;
 
 class AuthController extends Controller
 {
