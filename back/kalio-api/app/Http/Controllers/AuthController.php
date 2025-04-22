@@ -14,6 +14,17 @@ class AuthController extends Controller
 {
     /**
      * Registro de usuario
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - `username` (string): Nombre de usuario.
+     *   - `email` (string): Correo electrónico único.
+     *   - `password` (string): Contraseña del usuario.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Mensaje de éxito.
+     *   - Datos del usuario registrado.
      */
     public function register(Request $request)
     {
@@ -37,6 +48,19 @@ class AuthController extends Controller
 
     /**
      * Login de usuario
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - `email` (string): Correo electrónico del usuario.
+     *   - `password` (string): Contraseña del usuario.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Token de acceso (Bearer).
+     *   - Datos del usuario autenticado.
+     *   - Información del reto asociado (si existe).
+     *   - Calorías consumidas del día (si aplica).
+     *   - Detalles de los consumos diarios (si aplica).
      */
     public function login(Request $request)
     {
@@ -73,10 +97,7 @@ class AuthController extends Controller
                 $totalCalories = $consumDia->sum(fn($item) => $item->calories_consumides ?? 0);
                 Log::info('Total de calorías consumidas:', ['totalCalories' => $totalCalories]);
             }
-
         }
-
-
 
         return response()->json([
             'access_token' => $token,
@@ -90,6 +111,14 @@ class AuthController extends Controller
 
     /**
      * Obtener usuario autenticado
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - Token de autenticación en el encabezado de la solicitud.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Datos del usuario autenticado.
      */
     public function user(Request $request)
     {
@@ -98,6 +127,14 @@ class AuthController extends Controller
 
     /**
      * Cerrar sesión (logout)
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - Token de autenticación en el encabezado de la solicitud.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Mensaje de confirmación de cierre de sesión.
      */
     public function logout(Request $request)
     {

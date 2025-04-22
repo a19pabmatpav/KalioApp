@@ -26,14 +26,14 @@
 
 <script setup>
 // Importar Chart de Chart.js
-import { Chart } from 'chart.js/auto';
-import { onMounted, onBeforeUnmount, ref } from 'vue';
-const piniaStore = useAuthStore(); // Reemplaza con el nombre real de tu store
-const repteId = piniaStore.repte.id; // Accede al repte_id desde el estado
-const maxCalories = piniaStore.repte.limit_calories_diari; // Accede al límite de calorías desde el estado
+import { Chart } from 'chart.js/auto'; // Importación del gráfico
+import { onMounted, onBeforeUnmount, ref } from 'vue'; // Importar los hooks de Vue
+const piniaStore = useAuthStore(); // Acceder al store de autenticación (Pinia)
+const repteId = piniaStore.repte.id; // Obtener el id del reto desde el store
+const maxCalories = piniaStore.repte.limit_calories_diari; // Obtener el límite de calorías desde el store
 console.log(maxCalories);
 
-// Referencias para cada gráfico
+// Referencias para cada gráfico (se usarán en los hooks de Vue)
 const caloriesChart = ref(null);
 const proteinChart = ref(null);
 const sugarChart = ref(null);
@@ -42,43 +42,45 @@ const statsChartComplet = ref(null);
 
 // Datos máximos para calcular porcentajes
 const maxStats = {
-  calories: maxCalories,
-  proteins: ref(null),
-  sugars: ref(null),
-  water: ref(null),
+  calories: maxCalories,  // Calorías máximas (usadas para los porcentajes)
+  proteins: ref(null),    // Proteínas máximas
+  sugars: ref(null),      // Azúcares máximos
+  water: ref(null),       // Agua máxima
 };
 
 // Datos de consumo diarios
 const dades = ref({
   dailyStats: {
-    calories: 0,
-    proteins: 0,
-    sugars: 0,
-    water: 0,
+    calories: 0, // Calorías consumidas
+    proteins: 0, // Proteínas consumidas
+    sugars: 0,   // Azúcares consumidos
+    water: 0,    // Agua consumida
   },
   percentStats: {
-    calories: 30,
-    proteins: 50,
-    sugars: 40,
-    water: 80,
+    calories: 30,   // Porcentaje de calorías
+    proteins: 50,   // Porcentaje de proteínas
+    sugars: 40,     // Porcentaje de azúcares
+    water: 80,      // Porcentaje de agua
   },
 });
 
 // Crear un gráfico de barras
 const createBarChart = (canvasId, data, label) => {
+  // Obtener el contexto del lienzo (canvas)
   const ctx = document.getElementById(canvasId)?.getContext('2d');
   if (!ctx) return;
 
+  // Crear el gráfico con Chart.js
   return new Chart(ctx, {
-    type: 'bar',
+    type: 'bar', // Tipo de gráfico
     data: {
-      labels: ['Avui'], // Etiqueta para el eje X
+      labels: ['Avui'], // Etiqueta en el eje X
       datasets: [
         {
-          label: label, // Etiqueta del dataset
-          data: [data], // Pasar el valor dinámico como un array
-          backgroundColor: '#4ECDC4',
-          borderWidth: 2,
+          label: label,   // Etiqueta del dataset
+          data: [data],    // Los datos dinámicos del gráfico
+          backgroundColor: '#4ECDC4', // Color de fondo de las barras
+          borderWidth: 2,  // Grosor del borde
         },
       ],
     },
@@ -86,59 +88,59 @@ const createBarChart = (canvasId, data, label) => {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: {
-          display: true, // Mostrar el eje X
-        },
-        y: {
-          beginAtZero: true, // Asegurarse de que el eje Y comience en 0
-          max: 100, // Establecer el valor máximo en 100 para trabajar con porcentajes
-        },
+        x: { display: true },   // Mostrar el eje X
+        y: { beginAtZero: true, max: 100 }, // Mostrar el eje Y desde 0 hasta 100
       },
       plugins: {
         legend: {
-          display: true, // Mostrar la leyenda
+          display: true,  // Mostrar la leyenda
         },
       },
     },
   });
 };
 
-// Crear gráfico polar area
+// Crear gráfico de área polar
 const createPolarAreaChart = (canvasId, data) => {
+  // Obtener el contexto del lienzo (canvas)
   const ctx = document.getElementById(canvasId)?.getContext('2d');
   if (!ctx) return;
+
+  // Crear el gráfico con Chart.js
   return new Chart(ctx, {
-    type: 'polarArea',
+    type: 'polarArea', // Tipo de gráfico
     data: {
-      labels: ['Calories', 'Proteïnes', 'Sucres', 'Aigua'],
+      labels: ['Calories', 'Proteïnes', 'Sucres', 'Aigua'],  // Etiquetas para las áreas
       datasets: [
         {
-          data: [data.calories, data.proteins, data.sugars, data.water],
-          backgroundColor: ['#4ECDC4', '#F7FFF7', '#FF6B6B', '#1D3557'],
+          data: [data.calories, data.proteins, data.sugars, data.water], // Datos a graficar
+          backgroundColor: ['#4ECDC4', '#F7FFF7', '#FF6B6B', '#1D3557'], // Colores de las áreas
         },
       ],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: { legend: { display: false } }, // Desactivar la leyenda
     },
   });
 };
 
-// Obtener datos de consumo
+// Obtener datos de consumo de la API
 const getConsumData = async () => {
   console.log('maxStats', maxStats);
   console.log('buscando datos...');
 
   try {
+    // Solicitar datos de consumo al servidor
     const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       authorization: `Bearer ${localStorage.getItem('token')}`,
     });
+
     if (response.status === 404) {
-      // Si no hay datos, inicializar con ceros
+      // Si no se encuentran datos, inicializar con ceros
       dades.value.dailyStats = {
         calories: 0,
         proteins: 0,
@@ -154,11 +156,10 @@ const getConsumData = async () => {
       console.log("No s'han trobat consums per a aquest repte avui.");
       return;
     } else {
+      // Si hay datos, procesarlos y actualizar los valores
       const data = await response.json();
       console.log(data);
-      console.log(data.calories);
       
-      // Actualizar datos
       dades.value.dailyStats = {
         calories: data.calories,
         proteins: data.proteins,
@@ -167,41 +168,40 @@ const getConsumData = async () => {
       }
       dades.value.percentStats = {
         calories: (data.calories / maxStats.calories) * 100,
-         proteins: (data.proteins / maxStats.proteins) * 100,
-         sugars: (data.sugars / maxStats.sugars) * 100,
-         water: (data.water / maxStats.water) * 100,
+        proteins: (data.proteins / maxStats.proteins) * 100,
+        sugars: (data.sugars / maxStats.sugars) * 100,
+        water: (data.water / maxStats.water) * 100,
       }
       console.log('Dades actualitzades:', dades.value);
-
-      return { status: 'success'};
+      return { status: 'success' };
     };
   } catch (error) {
     console.error("Error al obtener datos:", error);
   }
 };
 
-// Mostrar información
+// Mostrar información en un alert
 const showInfo = () => {
   alert(`Aquí pots veure com ha estat el teu consum d'avui.
 Tens 4 gràfics que mostren el percentatge de calories, proteïnes, sucres i aigua que has consumit.
 Al final, trobaràs un gràfic complet que reuneix totes aquestes dades per ajudar-te a entendre millor el teu consum total.`);
 };
 
-// Montar los gráficos al cargar el componente
+// Montar los gráficos cuando se monta el componente
 onMounted(async () => {
-  await getConsumData(); // Esperar a obtener los datos
+  await getConsumData(); // Esperar la respuesta de la API
 
-  // Crear los gráficos
+  // Crear los gráficos después de obtener los datos
   caloriesChart.value = createBarChart('caloriesChart', dades.value.percentStats.calories, 'Calories');
   proteinChart.value = createBarChart('proteinChart', dades.value.percentStats.proteins, 'Proteïnes');
   sugarChart.value = createBarChart('sugarChart', dades.value.percentStats.sugars, 'Sucres');
   waterChart.value = createBarChart('waterChart', dades.value.percentStats.water, 'Aigua');
 
-  // Gráfico completo
+  // Crear el gráfico completo
   statsChartComplet.value = createPolarAreaChart('statsChartComplet', dades.value.percentStats);
 });
 
-// Destruir los gráficos al desmontar el componente
+// Desmontar los gráficos cuando se desmonta el componente
 onBeforeUnmount(() => {
   caloriesChart.value?.destroy();
   proteinChart.value?.destroy();
@@ -209,11 +209,14 @@ onBeforeUnmount(() => {
   waterChart.value?.destroy();
   statsChartComplet.value?.destroy();
 });
+
+// Navegar a la pantalla de agregar consumo
 const addConsum = () => {
   const router = useRouter();
   router.push('/addConsum');
 };
 </script>
+
 
 
 <style scoped>

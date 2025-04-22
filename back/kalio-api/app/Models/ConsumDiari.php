@@ -5,6 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Modelo ConsumDiari
+ *
+ * Representa un registro de consumo diario asociado a un reto.
+ *
+ * Propiedades:
+ * - `repte_id` (integer): ID del reto asociado.
+ * - `data` (date): Fecha del consumo.
+ * - `calories_consumides` (integer): Cantidad de calorías consumidas en esa fecha.
+ *
+ * Relaciones:
+ * - Pertenece a un reto (`Repte`).
+ */
 class ConsumDiari extends Model
 {
     use HasFactory;
@@ -19,7 +32,13 @@ class ConsumDiari extends Model
         'calories_consumides', // Cantidad de calorías consumidas
     ];
 
-    // Definir la relación con el modelo 'Repte'
+    /**
+     * Relación con el modelo Repte
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * - Retorna:
+     *   - La relación de pertenencia al modelo `Repte`.
+     */
     public function repte()
     {
         return $this->belongsTo(Repte::class);

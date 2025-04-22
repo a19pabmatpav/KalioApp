@@ -18,6 +18,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/reptes', [RepteController::class, 'store']); // Crear o actualizar reto
     Route::get('/consumit', [ConsumDiariController::class, 'index']); // Obtener consums diaris
+    Route::post('/logros/assign', [LogroController::class, 'assignLogroToUser']);
+    Route::get('/logros/{username}', [LogroController::class, 'index']);
 });
 Route::get('/consums/{repte_id}', [ConsumDiariController::class, 'show']); // Obtener consums diaris de un usuario
 
@@ -25,11 +27,5 @@ Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar
 Route::get('/historic', [HistoricController::class, 'index']); // Obtener histórico de consums diaris
 Route::get('/historic/{id}', [HistoricController::class, 'show']); // Obtener histórico de consums diaris de un usuario
 
-Route::post('/logros/assign', [LogroController::class, 'assignLogroToUser']);
-Route::get('/users/{userId}/logros', [LogroController::class, 'getUserLogros']);
 
-//
-Route::middleware('auth:sanctum')->group(function () {
-
-
-});
+//Route::get('/users/{userId}/logros', [LogroController::class, 'getUserLogros']);

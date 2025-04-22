@@ -32,12 +32,17 @@ export default {
         const error = ref(null);
 
         // Obtener el ID del usuario desde el store de Pinia
-        const userStore = useUserStore();
-        const userId = userStore.user.id; // Asegúrate de que el store tenga el ID del usuario
+        const userStore = useAuthStore();
+        const username = userStore.username; 
+        const token = userStore.token;
 
         // Obtener los datos al montar el componente
         onMounted(async () => {
-            const { data, error: fetchError } = await useFetch(`http://localhost:8000/api/users/${userId}/logros`);
+            const { data, error: fetchError } = await useFetch(`http://localhost:8000/api/logros/${username}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             if (fetchError.value) {
                 console.error('Error fetching data:', fetchError.value);
                 error.value = fetchError.value;

@@ -1,0 +1,67 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36" version="25.0.1">
+  <diagram name="Página-1" id="gKP5VtlfFPYLBusPqTUG">
+    <mxGraphModel dx="1050" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-3" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="610" y="140" width="70" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-1" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="P37aCLnsXLVk-VOPdc6S-3">
+          <mxGeometry x="10" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-2" value="&lt;b&gt;BBDD&lt;/b&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="P37aCLnsXLVk-VOPdc6S-3">
+          <mxGeometry y="20" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-4" value="&lt;b&gt;API&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="190" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-7" value="CLIENT" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="150" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-11" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0;exitDx=0;exitDy=27.5;exitPerimeter=0;" edge="1" parent="1" source="P37aCLnsXLVk-VOPdc6S-2" target="P37aCLnsXLVk-VOPdc6S-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="200.5" as="sourcePoint" />
+            <mxPoint x="470" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-13" value="&lt;b style=&quot;line-height: 200%;&quot;&gt;Login: &lt;/b&gt;username, email, password&lt;div style=&quot;line-height: 200%;&quot;&gt;&lt;b&gt;Register:&amp;nbsp;&lt;/b&gt;username, email, password&lt;br&gt;&lt;b&gt;CrearRepte: &lt;/b&gt;dataInici, dataFi, limit_calorias_diari&lt;br&gt;&lt;b&gt;AddConsum: &lt;/b&gt;CaloriesConsumides&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="280" width="330" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-14" value="&lt;div style=&quot;text-align: right;&quot;&gt;&lt;b style=&quot;background-color: initial; line-height: 200%;&quot;&gt;AuthController: &lt;/b&gt;&lt;span style=&quot;background-color: initial; line-height: 200%;&quot;&gt;Created&lt;/span&gt;&lt;span style=&quot;background-color: initial; line-height: 200%;&quot;&gt;UserObject, token, repte, consumDiari, consums&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;line-height: 200%;&quot;&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;b style=&quot;background-color: initial; line-height: 24px;&quot;&gt;AuthController&lt;/b&gt;&lt;b style=&quot;background-color: initial;&quot;&gt;:&amp;nbsp;&lt;/b&gt;&lt;span style=&quot;background-color: initial; line-height: 24px;&quot;&gt;Created&lt;/span&gt;&lt;span style=&quot;background-color: initial; line-height: 24px;&quot;&gt;UserObject&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;b style=&quot;font-weight: bold; background-color: initial;&quot;&gt;RepteController: &lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;RepteObject&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: right;&quot;&gt;&lt;b style=&quot;font-weight: bold; background-color: initial;&quot;&gt;RepteController: &lt;/b&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;ConsumDiariObject&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="397" y="280" width="430" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="P37aCLnsXLVk-VOPdc6S-7" target="P37aCLnsXLVk-VOPdc6S-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="189" as="sourcePoint" />
+            <mxPoint x="300" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-16" value="&lt;b&gt;3&#39;s API&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="90" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-17" value="&lt;b&gt;SPOONACULAR&lt;/b&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="20" width="160" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-22" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="P37aCLnsXLVk-VOPdc6S-7" target="P37aCLnsXLVk-VOPdc6S-16">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="170" as="sourcePoint" />
+            <mxPoint x="300" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-23" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.94;exitY=0.38;exitDx=0;exitDy=0;entryX=0.13;entryY=0.77;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="1" source="P37aCLnsXLVk-VOPdc6S-16" target="P37aCLnsXLVk-VOPdc6S-17">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="240" y="200" as="sourcePoint" />
+            <mxPoint x="438" y="18" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-24" value="&lt;b&gt;Calorinator: &lt;/b&gt;Aliment, cantitat" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="110" y="20" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="P37aCLnsXLVk-VOPdc6S-25" value="&lt;b&gt;Response: &lt;/b&gt;Calories" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="414" y="20" width="160" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

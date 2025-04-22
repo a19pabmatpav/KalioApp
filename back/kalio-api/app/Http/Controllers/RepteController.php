@@ -8,14 +8,34 @@ use App\Models\ConsumDiari;
 
 class RepteController extends Controller
 {
-    // Mostrar tots els reptes de l'usuari loguejat
+    /**
+     * Mostrar todos los retos del usuario logueado.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Una lista de retos asociados al usuario autenticado.
+     */
     public function index()
     {
-        $reptes = Auth::user()->reptes; // Relació amb l'usuari
+        $reptes = Auth::user()->reptes; // Relación con el usuario
         return response()->json($reptes);
     }
 
-    // Crear un nou repte
+    /**
+     * Crear o actualizar un reto para el usuario autenticado.
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - `nom` (string): Nombre del reto.
+     *   - `data_inici` (date): Fecha de inicio del reto.
+     *   - `data_fi` (date): Fecha de finalización del reto (debe ser posterior a `data_inici`).
+     *   - `limit_calories_diari` (integer): Límite diario de calorías.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Mensaje de éxito.
+     *   - Detalles del reto creado o actualizado.
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -42,6 +62,19 @@ class RepteController extends Controller
         ], 201);
     }
 
+    /**
+     * Registrar el consumo diario de calorías para el reto del usuario autenticado.
+     *
+     * @param Request $request
+     * - Recibe:
+     *   - `calories_consumides` (integer): Cantidad de calorías consumidas.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Mensaje de éxito.
+     *   - Detalles del consumo diario registrado.
+     *   - Error 400 si el usuario no tiene un reto creado.
+     */
     public function registrarConsumDiari(Request $request)
     {
         $request->validate([
@@ -69,6 +102,5 @@ class RepteController extends Controller
             'consum_diari' => $consumDiari
         ], 201);
     }
-
 }
 
