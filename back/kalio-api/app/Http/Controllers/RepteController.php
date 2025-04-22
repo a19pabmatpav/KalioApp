@@ -102,5 +102,33 @@ class RepteController extends Controller
             'consum_diari' => $consumDiari
         ], 201);
     }
+
+    /**
+     * Eliminar un reto del usuario autenticado.
+     *
+     * @param int $id
+     * - ID del reto a eliminar.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * - Retorna:
+     *   - Mensaje de éxito.
+     */
+    public function destroy($id)
+    {
+        $repte = Repte::find($id);
+
+        if (!$repte) {
+            return response()->json(['missatge' => 'Repte no trobat'], 404);
+        }
+
+        // Verificar si el reto pertenece al usuario autenticado
+        if ($repte->user_id !== Auth::id()) {
+            return response()->json(['missatge' => 'No tens permís per eliminar aquest repte'], 403);
+        }
+
+        $repte->delete();
+
+        return response()->json(['missatge' => 'Repte eliminat correctament']);
+    }
 }
 
