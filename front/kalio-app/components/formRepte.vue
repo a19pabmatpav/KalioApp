@@ -14,7 +14,7 @@
         <label for="maxCalories">Límit diari de caloríes:</label>
         <input type="number" id="maxCalories" v-model="maxCalories" required/>
         </div>
-      <button type="submit">Crear Repte</button>
+      <button type="submit">Desar Repte</button>
     </form>
   </template>
   

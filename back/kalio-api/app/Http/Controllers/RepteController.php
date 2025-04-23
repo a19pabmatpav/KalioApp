@@ -128,7 +128,7 @@ class RepteController extends Controller
 
         $repte->delete();
 
-        return response()->json(['missatge' => 'Repte eliminat correctament']);
+        return response()->json(['missatge' => 'Repte eliminat correctament'], 204);
     }
 }
 

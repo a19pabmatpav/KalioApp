@@ -71,32 +71,36 @@ class ConsumDiariController extends Controller
      * @param int $repte_id
      * - Recibe:
      *   - `repte_id` (integer): ID del reto asociado.
+     *   - `range` (string, opcional): Rango de fechas (hoy, semana, mes).
      *
      * @return \Illuminate\Http\JsonResponse
      * - Retorna:
-     *   - Un resumen del consumo diario del reto especificado (calorías, proteínas, azúcar, agua).
-     *   - Error 404 si no se encuentran consumos para el reto en la fecha actual.
+     *   - Una lista de consumos diarios del reto especificado dentro del rango de tiempo.
+     *   - Error 404 si no se encuentran consumos para el rango especificado.
      */
-    public function show($repte_id)
+    public function show($repte_id, Request $request)
     {
-        $hoy = date('Y-m-d');
+        $range = $request->query('range', 'today'); // Obtener el rango de la consulta (por defecto "today")
 
-        $consums = ConsumDiari::where('repte_id', $repte_id)
-            ->where('data', $hoy)
-            ->get();
-        $totalCalories = $consums->sum('calories_consumides');
-        $totalConsumit = [
-            'calories' => $totalCalories,
-            'proteins' => 0,
-            'sugar' => 0,
-            'water' => 0,
-        ];
+        $query = ConsumDiari::where('repte_id', $repte_id);
 
-        if ($consums->isEmpty()) {
-            return response()->json(['error' => 'No s\'han trobat consums per a aquest repte avui.'], 404);
+        // Filtrar por rango
+        if ($range === 'today') {
+            $query->whereDate('data', now());
+        } elseif ($range === 'week') {
+            $query->whereBetween('data', [now()->subDays(7), now()]);
+        } elseif ($range === 'month') {
+            $query->whereBetween('data', [now()->subMonth(), now()]);
         }
 
-        return response()->json($totalConsumit);
+        $consums = $query->get();
+
+        if ($consums->isEmpty()) {
+            return response()->json(['error' => 'No s\'han trobat consums per a aquest rang.'], 404);
+        }
+
+        // Devolver todos los registros encontrados
+        return response()->json($consums);
     }
 
     /**
