@@ -1,6 +1,6 @@
 <template>
     <div class="chart-container">
-        <p>Mostrando datos por: {{ range }}</p>
+        <p>Mostrant dades per: '{{ range }}'</p>
         <canvas id="lineChart" ref="canvasRef"></canvas> <!-- Canvas para el gráfico -->
     </div>
 </template>

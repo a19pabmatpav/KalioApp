@@ -26,7 +26,8 @@
   <style scoped>
   .timer-bar {
     display: flex;
-    gap: 1rem;
+    justify-content: center;
+    align-items: center;
   }
   button {
     padding: 0.5rem 1rem;
