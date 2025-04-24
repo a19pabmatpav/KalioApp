@@ -6,6 +6,7 @@
         <img src="../public/img/list.svg" alt="menu" srcset="">
       </button>
       <ul class="dropdown-menu">
+        <li><a class="dropdown-item" @click="() => $router.push('/mainView')">Inici</a></li>
         <li><a class="dropdown-item" @click="() => $router.push('/profile')">Perfil</a></li>
         <li><a class="dropdown-item" @click="() => $router.push('/history')">Veure històric</a></li>
         <li><a class="dropdown-item" @click="() => $router.push('/logOut')">Tancar sessió</a></li>

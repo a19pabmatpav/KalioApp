@@ -59,9 +59,18 @@ class IngredientManager extends ApiClient {
     const data = await this.makeRequest(`https://api.spoonacular.com/food/ingredients/${foodId}/information`, {
       amount: 1
     });
-    const calories = data?.nutrition?.nutrients?.find(nutrient => nutrient.name === 'Calories')?.amount;
-    console.log('🔥 Calorías del ingrediente:', calories);
-    return calories || null;
+    console.log(data);
+    
+    const calories = data?.nutrition?.nutrients?.find(nutrients => nutrients.name === 'Calories')?.amount;
+    const proteins = data?.nutrition?.nutrients?.find(nutrients => nutrients.name === 'Protein')?.amount;
+    const sugars = data?.nutrition?.nutrients?.find(nutrients => nutrients.name === 'Sugar')?.amount;
+    const dades = {
+      calories: calories || null,
+      proteins: proteins || null,
+      sugars: sugars || null
+    }
+    console.log('🔥 Datos del ingrediente:', calories, proteins, sugars);
+    return dades || null;
   }
 }
 

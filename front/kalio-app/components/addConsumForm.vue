@@ -129,6 +129,8 @@ export default {
             const calorinator = useCalorinator()
             //const translator = translator()
             let consumedCalories = auth.consumDia;
+            let consumedProteins = auth.consumProt;
+            let consumedSugars = auth.consumSuger;
             
             const repte_id = auth.repte.id;
 
@@ -139,13 +141,22 @@ export default {
             //const translatedConsum = translator.translateTextEn(consum);
             for (let ingredient of consum.alimentos) {
                 console.log('ingredient', ingredient);
-                const calories = await calorinator.getCalories(ingredient.alimento, ingredient.cantidad, 'ingredient');
-                console.log('calories al front', calories);
-                console.log('calories PREconsumides', consumedCalories);
-                
-                
-                consumedCalories += calories;
-                console.log('calories POSTconsumides', consumedCalories);
+
+                // Obtener los valores de calorías, proteínas y azúcares del calorinator
+                const { calories, proteins, sugars } = await calorinator.getCalories(
+                    ingredient.alimento,
+                    ingredient.cantidad,
+                    'ingredient'
+                );
+
+                console.log('Valores recibidos:', { calories, proteins, sugars });
+
+                // Asignar los valores a las variables acumulativas
+                consumedCalories += calories || 0; // Si es null, suma 0
+                consumedProteins += proteins || 0; // Si es null, suma 0
+                consumedSugars += sugars || 0; // Si es null, suma 0
+
+                console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars);
             }
 
             const response = await $fetch('http://localhost:8000/api/addConsum', {
@@ -163,6 +174,8 @@ export default {
                 .then((response) => {
                     console.log('Success:', response);
                     auth.addConsumDia(response.consum.calories_consumides);
+                    auth.addConsumProt(response.consum.proteins_consumides);
+                    auth.addConsumSuger(response.consum.sugars_consumides);
                     auth.setConsums(response.consum);
                 }).catch((error) => {
                     console.error('Error:', error);
