@@ -23,6 +23,7 @@ const fetchChartData = async (range) => {
         const authStore = useAuthStore(); // Accede al store de autenticación
         const repteId = authStore.repte.id; // ID del reto actual
         const token = authStore.token; // Token de autenticación
+        const maxCalories = authStore.repte.limit_calories_diari; // Máximo de calorías permitido
 
         // Construir la URL según el rango
         let url = `http://localhost:8000/api/consums/${repteId}`;
@@ -45,8 +46,14 @@ const fetchChartData = async (range) => {
 
         if (response.ok) {
             const data = await response.json();
-            chartData.value = data; // Actualizar los datos del gráfico
-            console.log('Datos del gráfico actualizados:', data);
+
+            // Normalizar los datos a porcentajes
+            chartData.value = data.map(item => ({
+                ...item,
+                percentage: (item.calories_consumides / maxCalories) * 100, // Calcular el porcentaje
+            }));
+
+            console.log('Datos del gráfico actualizados:', chartData.value);
             renderLineChart(); // Llamar al método para renderizar el gráfico
         } else {
             console.error('Error al obtener los datos del gráfico:', response.statusText);
@@ -72,8 +79,8 @@ const renderLineChart = () => {
             labels: chartData.value.map(item => item.data), // Fechas de los consumos
             datasets: [
                 {
-                    label: 'Consumo Diario',
-                    data: chartData.value.map(item => item.calories_consumides), // Calorías consumidas
+                    label: 'Consumo Diario (%)',
+                    data: chartData.value.map(item => item.percentage), // Usar los porcentajes calculados
                     borderColor: '#4caf50',
                     backgroundColor: 'rgba(76, 175, 80, 0.2)',
                     borderWidth: 2,
@@ -93,9 +100,10 @@ const renderLineChart = () => {
                 y: {
                     title: {
                         display: true,
-                        text: 'Calorías Consumidas',
+                        text: 'Porcentaje de Consumo',
                     },
                     beginAtZero: true,
+                    max: 100, // Fijar el máximo en 100%
                 },
             },
         },
@@ -116,3 +124,19 @@ onMounted(() => {
     fetchChartData(props.range); // Obtener los datos iniciales
 });
 </script>
+<style scoped>
+.chart-container {
+    width: 100%;
+    height: 400px; /* Altura del gráfico */
+    position: relative;
+}
+.chart-container canvas {
+    width: 70% ; /* Asegurar que el canvas ocupe todo el ancho */
+    height: 70% ; /* Asegurar que el canvas ocupe toda la altura */
+}
+.chart-container p {
+    text-align: center; /* Centrar el texto */
+    font-size: 16px; /* Tamaño de fuente del texto */
+    margin-bottom: 10px; /* Espacio entre el texto y el gráfico */
+}
+</style>
