@@ -96,13 +96,26 @@ class Calorinator {
     } else {
       console.log(`📦 Obteniendo calorías de ${quantity} unidad(es) de ${foodItem}.`);
       const caloriesPerUnit = await this.ingredientManager.getNutritionData(foodItem);
+      const proteinsPerUnit = await this.ingredientManager.getNutritionData(foodItem);
+      const sugarsPerUnit = await this.ingredientManager.getNutritionData(foodItem);
       if (caloriesPerUnit === null) {
         console.error('❌ No se pudo obtener la información nutricional.');
         return null;
       }
+      console.log(caloriesPerUnit, proteinsPerUnit, sugarsPerUnit);
+      
       const totalCalories = caloriesPerUnit * quantity;
-      console.log(`🔥 Calorías totales para ${quantity} unidad(es) de ${foodItem}: ${totalCalories}`);
-      return parseInt(totalCalories);
+      const totalProteins = proteinsPerUnit * quantity;
+      const totalSugars = sugarsPerUnit * quantity;
+      const nutritionalData = {
+        calories: totalCalories,
+        proteins: totalProteins,
+        sugars: totalSugars
+      };
+      console.log(`🍽️ Información nutricional para ${quantity} unidad(es) de ${foodItem}: ${JSON.stringify(nutritionalData)}`);
+      
+
+      return parseInt(nutritionalData);
     }
   }
 }
