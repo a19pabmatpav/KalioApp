@@ -21,12 +21,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/consumit', [ConsumDiariController::class, 'index']); // Obtener consums diaris
     Route::post('/logros/assign', [LogroController::class, 'assignLogroToUser']);
     Route::get('/logros/{username}', [LogroController::class, 'index']);
+    Route::post('/historic', [HistoricController::class, 'sendHistoric']); // Enviar historic
 });
 Route::get('/consums/{repte_id}', [ConsumDiariController::class, 'show']); // Obtener consums diaris de un usuario
 
 Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar consum diari
-Route::get('/historic', [HistoricController::class, 'index']); // Obtener histórico de consums diaris
-Route::get('/historic/{id}', [HistoricController::class, 'show']); // Obtener histórico de consums diaris de un usuario
+// Route::get('/historic', [HistoricController::class, 'index']); // Obtener histórico de consums diaris
+// Route::get('/historic/{id}', [HistoricController::class, 'show']); // Obtener histórico de consums diaris de un usuario
 
 
 //Route::get('/users/{userId}/logros', [LogroController::class, 'getUserLogros']);

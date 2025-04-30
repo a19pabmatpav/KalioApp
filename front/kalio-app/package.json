@@ -17,6 +17,7 @@
     "bootstrap": "^5.3.5",
     "chart.js": "^4.4.8",
     "chartjs-plugin-annotation": "^3.1.0",
+    "html2pdf.js": "^0.10.3",
     "normalize": "^0.3.1",
     "nuxt": "^3.15.4",
     "pinia": "^3.0.1",

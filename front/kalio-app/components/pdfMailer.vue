@@ -1,28 +1,28 @@
 <template>
-    <button @click="sendPDF">Enviar gráfico por PDF</button>
-  </template>
-  
-  <script setup>
-  const props = defineProps({
-    range: String
-  })
-  
-  const sendPDF = async () => {
-    // Aquí iría lógica de capturar el gráfico y enviarlo por mail
-    console.log('Enviando PDF del rango:', props.range)
+  <button @click="sendPDF">Enviar gráfico por PDF</button>
+</template>
 
-    const response = await fetch('localhost:3000/api/send-pdf', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ range: props.range })
-    })
-    if (response.ok) {
-      console.log('PDF enviado con éxito')
-    } else {
-      console.error('Error al enviar el PDF')
-    }
+<script setup>
+const props = defineProps({
+  range: String,
+  chartElement: Object
+})
+
+const sendPDF = () => {
+  if (!props.chartElement) {
+    console.warn('No se encontró el componente Chart')
+    return
   }
-  </script>
-  
+
+  html2pdf()
+    .from(props.chartElement)
+    .set({
+      margin: 1,
+      filename: `grafico-${props.range}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    })
+    .save()
+}
+</script>
