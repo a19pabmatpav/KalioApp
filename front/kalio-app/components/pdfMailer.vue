@@ -3,9 +3,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+
+
 
 const sendPDF = async () => {
+  const authStore = useAuthStore(); // Accede al store de autenticación
+  const token = authStore.token; // Token de autenticación
+
   try {
     // Obtén el canvas del gráfico (asegúrate de que el ID coincida con el del componente Chart.js)
     const canvas = document.getElementById('lineChart');
@@ -22,11 +26,14 @@ const sendPDF = async () => {
       image: imageBase64, // Imagen en formato base64
     };
 
+    console.log('Payload enviado:', payload);
+
     // Realiza la solicitud al backend
     const response = await fetch('http://localhost:8000/api/historic/imgToPdf', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
     });

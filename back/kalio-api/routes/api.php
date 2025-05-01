@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logros/{username}', [LogroController::class, 'index']);
     Route::post('/historic', [HistoricController::class, 'sendHistoric']); // Enviar historic
     Route::post('/historic/imgToPdf', [HistoricController::class, 'imgToPdf']); // Convertir imagen a PDF
+    Route::get('/consums/{repte_id}', [ConsumDiariController::class, 'show']); // Obtener consums diaris de un usuario
 });
-Route::get('/consums/{repte_id}', [ConsumDiariController::class, 'show']); // Obtener consums diaris de un usuario
 
 Route::post('/addConsum', [ConsumDiariController::class, 'store']); // Registrar consum diari
 // Route::get('/historic', [HistoricController::class, 'index']); // Obtener histórico de consums diaris

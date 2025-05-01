@@ -61,10 +61,15 @@ class HistoricController extends Controller
 
     public function imgToPdf(Request $request)
     {
-        // Validar que el archivo de imagen esté presente
-        if (!$request->hasFile('img')) {
-            return response()->json(['error' => 'El archivo de imagen es obligatorio.'], 400);
+        $imageData = $request->input('image');
+
+        if (!$imageData || !str_starts_with($imageData, 'data:image')) {
+            return response()->json(['error' => 'Imagen no válida o no proporcionada.'], 400);
         }
 
+
+
+        return response($imageData)
+            ->header('Content-Type', 'image/png'); // o image/jpeg si corresponde
     }
 }
