@@ -15,7 +15,7 @@
   const emit = defineEmits(['change-range'])
   
   const options = ['year', 'month', 'week', 'day']
-  const selected = ref('month')
+  const selected = ref('day')
   
   const selectRange = (range) => {
     selected.value = range

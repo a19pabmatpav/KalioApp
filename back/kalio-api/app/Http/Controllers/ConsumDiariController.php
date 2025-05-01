@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ConsumDiari;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ConsumDiariController extends Controller
 {
@@ -82,24 +83,43 @@ class ConsumDiariController extends Controller
     {
         $range = $request->query('range', 'today'); // Obtener el rango de la consulta (por defecto "today")
 
+        // Crear la consulta base
         $query = ConsumDiari::where('repte_id', $repte_id);
 
-        // Filtrar por rango
+        // Filtrar por rango utilizando el campo `data`
         if ($range === 'today') {
-            $query->whereDate('data', now());
+            $query->whereDate('data', now()->toDateString()); // Solo los datos de hoy
         } elseif ($range === 'week') {
-            $query->whereBetween('data', [now()->subDays(7), now()]);
+            $query->whereBetween('data', [
+                now()->subDays(6)->toDateString(), // Hace 6 días
+                now()->toDateString() // Hoy
+            ]);
         } elseif ($range === 'month') {
-            $query->whereBetween('data', [now()->subMonth(), now()]);
+            $query->whereBetween('data', [
+                now()->subMonth()->toDateString(), // Hace un mes
+                now()->toDateString() // Hoy
+            ]);
+        } else {
+            return response()->json([
+                'error' => 'Rango no válido.',
+                'range' => $range
+            ], 400);
         }
 
+        // Obtener los resultados
         $consums = $query->get();
 
+        // Si no se encuentran resultados, devolver un error
         if ($consums->isEmpty()) {
-            return response()->json(['error' => 'No s\'han trobat consums per a aquest rang.'], 404);
+            return response()->json([
+                'error' => 'No s\'han trobat consums per a aquest rang.',
+                'consulta' => $query->toSql(),
+                'bindings' => $query->getBindings(),
+                'range' => $range,
+            ], 404);
         }
 
-        // Devolver todos los registros encontrados
+        // Devolver los registros encontrados
         return response()->json($consums);
     }
 
@@ -113,10 +133,7 @@ class ConsumDiariController extends Controller
      * @return void
      * - Esta función no está implementada porque no se utiliza en una API REST.
      */
-    public function edit(ConsumDiari $consumDiari)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

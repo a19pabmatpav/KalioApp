@@ -58,4 +58,13 @@ class HistoricController extends Controller
             return response()->json(['error' => 'No se pudo enviar el correo: ' . $e->getMessage()], 500);
         }
     }
+
+    public function imgToPdf(Request $request)
+    {
+        // Validar que el archivo de imagen esté presente
+        if (!$request->hasFile('img')) {
+            return response()->json(['error' => 'El archivo de imagen es obligatorio.'], 400);
+        }
+
+    }
 }

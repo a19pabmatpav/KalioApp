@@ -3,48 +3,41 @@
 </template>
 
 <script setup>
-import * as html2pdf from 'html2pdf.js';
+import { ref } from 'vue';
 
-// Definición de props
-const props = defineProps({
-  range: {
-    type: String,
-    required: true,
-  },
-  chartElement: {
-    type: Object,
-    required: true,
-  },
-});
-
-let html2pdfLib = null;
-
-onMounted(() => {
-  // Inicializar html2pdf solo una vez
-  if (process.client && !html2pdfLib) {
-    html2pdfLib = window.html2pdf;
-  }
-});
-// Método para generar y descargar el PDF
-const sendPDF = () => {
-  if (!props.chartElement) {
-    console.warn('No se encontró el elemento del gráfico');
-    return;
-  }
-
+const sendPDF = async () => {
   try {
-    html2pdfLib()
-      .from(props.chartElement)
-      .set({
-        margin: 1,
-        filename: `grafico-${props.range}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      })
-      .save();
+    // Obtén el canvas del gráfico (asegúrate de que el ID coincida con el del componente Chart.js)
+    const canvas = document.getElementById('lineChart');
+    if (!canvas) {
+      console.error('No se encontró el canvas del gráfico.');
+      return;
+    }
+
+    // Convierte el canvas a una imagen en formato base64
+    const imageBase64 = canvas.toDataURL('image/png');
+
+    // Construye el payload para enviar al backend
+    const payload = {
+      image: imageBase64, // Imagen en formato base64
+    };
+
+    // Realiza la solicitud al backend
+    const response = await fetch('http://localhost:8000/api/historic/imgToPdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) {
+      console.log('Gráfico enviado correctamente al backend.');
+    } else {
+      console.error('Error al enviar el gráfico:', response.statusText);
+    }
   } catch (error) {
-    console.error('Error al generar el PDF:', error);
+    console.error('Error en imgToPdf:', error);
   }
 };
 </script>

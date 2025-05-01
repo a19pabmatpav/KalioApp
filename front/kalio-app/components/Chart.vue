@@ -2,6 +2,7 @@
     <div class="chart-container">
         <p>Mostrant dades per: '{{ range }}'</p>
         <canvas id="lineChart" ref="canvasRef"></canvas> <!-- Canvas para el gráfico -->
+        <p v-if="chartData.length === 0">No hi ha dades per mostrar.</p> <!-- Mensaje si no hay datos -->
     </div>
 </template>
 
@@ -27,12 +28,17 @@ const fetchChartData = async (range) => {
 
         // Construir la URL según el rango
         let url = `http://localhost:8000/api/consums/${repteId}`;
-        if (range === 'hoy') {
+        if (range === 'day') {
             url += '?range=today';
-        } else if (range === 'semana') {
+        } else if (range === 'week') {
             url += '?range=week';
-        } else if (range === 'mes') {
+        } else if (range === 'month') {
             url += '?range=month';
+        } else if (range === 'year') {
+            url += '?range=year';
+        } else {
+            console.error('Rango no válido:', range);
+            return;
         }
 
         // Realizar la solicitud

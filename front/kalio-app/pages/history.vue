@@ -13,7 +13,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const selectedRange = ref('month') // por defecto mes
+const selectedRange = ref('day') // por defecto mes
 const chartRef = ref(null)
 
 const handleRangeChange = (newRange) => {
