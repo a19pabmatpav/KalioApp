@@ -57,10 +57,10 @@ const dades = ref({
     water: 0,    // Agua consumida
   },
   percentStats: {
-    calories: 30,   // Porcentaje de calorías
-    proteins: 50,   // Porcentaje de proteínas
-    sugars: 40,     // Porcentaje de azúcares
-    water: 80,      // Porcentaje de agua
+    calories: 0,   // Porcentaje de calorías
+    proteins: 0,   // Porcentaje de proteínas
+    sugars: 0,     // Porcentaje de azúcares
+    water: 0,      // Porcentaje de agua
   },
 });
 
@@ -136,7 +136,7 @@ const getConsumData = async () => {
     const response = await fetch(`http://localhost:8000/api/consums/${repteId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
-      authorization: `Bearer ${localStorage.getItem('token')}`,
+      authorization: `Bearer ${localStorage.getItem('authToken')}`,
     });
 
     if (response.status === 404) {

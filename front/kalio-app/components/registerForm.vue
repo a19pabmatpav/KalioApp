@@ -44,9 +44,11 @@ const register = async () => {
 
 
             // Guardamos el token y el nombre de usuario en el store
+            console.log(response);
+            
             auth.login(response.username, response.token)
             localStorage.setItem('authUsername', response.user.name)
-            localStorage.setItem('authToken', response.access_token)
+            localStorage.setItem('authToken', response.token)
 
             router.push('/repte')
 
