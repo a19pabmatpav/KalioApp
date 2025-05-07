@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -11,12 +12,20 @@ class HistoricController extends Controller
 {
     public function sendHistoric(Request $request)
     {
-        // Obtener el correo electrónico del encabezado
-        $userEmail = $request->header('email');
+        // Obtener el usuario autenticado a partir del token
+        $user = $request->user(); // Esto funciona si estás usando auth:sanctum o auth:api
 
-        // Validar que el correo y el archivo estén presentes
-        if (!$userEmail || !$request->hasFile('reporte')) {
-            return response()->json(['error' => 'El encabezado de correo electrónico o el archivo PDF faltan.'], 400);
+        // Verificar que el usuario esté autenticado
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado.'], 401);
+        }
+
+        // Obtener el correo electrónico del usuario autenticado
+        $userEmail = $user->email;
+
+        // Validar que el archivo esté presente
+        if (!$request->hasFile('reporte')) {
+            return response()->json(['error' => 'El archivo PDF falta.'], 400);
         }
 
         // Validar que el archivo sea un PDF
@@ -61,15 +70,40 @@ class HistoricController extends Controller
 
     public function imgToPdf(Request $request)
     {
-        $imageData = $request->input('image');
+        // Validar que el archivo esté presente y sea una imagen
+        // $request->validate([
+        //     'image' => 'required|file|mimes:png,jpg,jpeg',
+        // ]);
 
-        if (!$imageData || !str_starts_with($imageData, 'data:image')) {
-            return response()->json(['error' => 'Imagen no válida o no proporcionada.'], 400);
+
+        try {
+            // Obtener el archivo de la solicitud
+            $image = $request->file('image');
+
+            // Guardar la imagen como archivo temporal
+            $imagePath = $image->storeAs('temp', 'chart_' . time() . '.' . $image->getClientOriginalExtension(), 'public');
+
+            // Crear un PDF con TCPDF
+            $pdf = new \TCPDF();
+            $pdf->AddPage();
+            $pdf->Image(storage_path('app/public/' . $imagePath), 10, 10, 180); // 180 = ancho; se ajusta automáticamente el alto
+            return response()->json([
+                'message' => 'Validación de imagen omitida para pruebas.'
+            ], 200);
+            // Guardar el PDF como archivo temporal
+            $pdfPath = storage_path('app/public/temp_pdf_' . time() . '.pdf');
+            $pdf->Output($pdfPath, 'F');
+
+            // Eliminar la imagen temporal
+            unlink(storage_path('app/public/' . $imagePath));
+
+            // Devolver el PDF generado como respuesta
+            return response()->download($pdfPath)->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error al convertir la imagen a PDF: ' . $e->getMessage()
+            ], 500);
         }
-
-
-
-        return response($imageData)
-            ->header('Content-Type', 'image/png'); // o image/jpeg si corresponde
     }
 }

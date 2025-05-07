@@ -52,6 +52,7 @@ export const useAuthStore = defineStore('auth', {
     isAuthenticated: (state) => !!state.authenticated,
     name: (state) => state.username,
     consumit: (state) => state.consumDia,
+    usr_token: (state) => state.token,
   },
   persist: true
 

@@ -128,9 +128,12 @@ const createPolarAreaChart = (canvasId, data) => {
 
 // Obtener datos de consumo de la API
 const getConsumData = async () => {
-  const token = piniaStore.auth.token; // Obtener el token de autenticación
+  const token = piniaStore.token; // Obtener el token de autenticación
+  console.log('token', token);
+  
   console.log('maxStats', maxStats);
   console.log('buscando datos...');
+
 
   try {
     // Solicitar datos de consumo al servidor
@@ -138,7 +141,7 @@ const getConsumData = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${token.value}`, // Usar el token de autenticación
       },
     });
 

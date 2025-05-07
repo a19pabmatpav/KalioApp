@@ -81,6 +81,7 @@ class ConsumDiariController extends Controller
      */
     public function show($repte_id, Request $request)
     {
+        
         $range = $request->query('range', 'today'); // Obtener el rango de la consulta (por defecto "today")
 
         // Crear la consulta base
