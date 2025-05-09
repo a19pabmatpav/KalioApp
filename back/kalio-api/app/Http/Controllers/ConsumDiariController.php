@@ -51,9 +51,9 @@ class ConsumDiariController extends Controller
         $request->validate([
             'repte_id' => 'required|integer',
             'data' => 'required|date',
-            'calories' => 'required|integer',
-            'proteines' => 'nullable|integer',
-            'sucres' => 'nullable|integer',
+            'calories' => 'required|float',
+            'proteines' => 'nullable|float',
+            'sucres' => 'nullable|float',
         ]);
 
         $consum = ConsumDiari::create([

@@ -30,6 +30,8 @@ class ConsumDiari extends Model
         'repte_id',          // Relación con el reto
         'data',              // Fecha del consumo
         'calories_consumides', // Cantidad de calorías consumidas
+        'proteines_consumides',
+        'sucres_consumits',        // Cantidad de proteínas consumidas
     ];
 
     /**

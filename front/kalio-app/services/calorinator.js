@@ -99,20 +99,30 @@ class Calorinator {
         console.error('❌ No se pudo obtener la información nutricional.');
         return null;
       }
-      console.log(caloriesPerUnit, proteinsPerUnit, sugarsPerUnit);
+      console.log(caloriesPerUnit);
+
+      // Asegurarse de que los valores sean números válidos
+      const calories = parseFloat(caloriesPerUnit.calories) || 0;
+      const proteins = parseFloat(caloriesPerUnit.proteins) || 0;
+      const sugars = parseFloat(caloriesPerUnit.sugars) || 0;
+
+      console.log('cantidad', quantity);
       
-      const totalCalories = float(caloriesPerUnit.calories * quantity);
-      const totalProteins = dades.proteinsPerUnit * quantity;
-      const totalSugars = sugarsPerUnit * quantity;
+
+      // Realizar los cálculos
+      const totalCalories = calories * parseFloat(quantity);
+      const totalProteins = proteins * parseFloat(quantity);
+      const totalSugars = sugars * parseFloat(quantity);
+
       const nutritionalData = {
         calories: totalCalories,
         proteins: totalProteins,
         sugars: totalSugars
       };
-      console.log(`🍽️ Información nutricional para ${quantity} unidad(es) de ${foodItem}: ${JSON.stringify(nutritionalData)}`);
-      
 
-      return parseFloat(nutritionalData);
+      console.log(`🍽️ Información nutricional para ${quantity} unidad(es) de ${foodItem}: ${JSON.stringify(nutritionalData)}`);
+
+      return nutritionalData; // Devuelve el objeto con los valores como float
     }
   }
 }
