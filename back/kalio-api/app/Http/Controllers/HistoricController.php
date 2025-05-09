@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Imagick;
 
 class HistoricController extends Controller
 {
@@ -71,31 +74,56 @@ class HistoricController extends Controller
     public function imgToPdf(Request $request)
     {
         // Validar que el archivo esté presente y sea una imagen
-        // $request->validate([
-        //     'image' => 'required|file|mimes:png,jpg,jpeg',
-        // ]);
-
+        $request->validate([
+            'image' => 'required|file|mimes:png,jpg,jpeg',
+        ]);
 
         try {
             // Obtener el archivo de la solicitud
             $image = $request->file('image');
 
-            // Guardar la imagen como archivo temporal
-            $imagePath = $image->storeAs('temp', 'chart_' . time() . '.' . $image->getClientOriginalExtension(), 'public');
+            // Procesar la imagen con Imagick para manejar la transparencia
+            $imagick = new Imagick($image->getPathname());
+            if ($imagick->getImageAlphaChannel()) {
+                // Si la imagen tiene canal alfa, elimina la transparencia
+                $imagick->setImageBackgroundColor('white');
+                $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            }
 
-            // Crear un PDF con TCPDF
-            $pdf = new \TCPDF();
-            $pdf->AddPage();
-            $pdf->Image(storage_path('app/public/' . $imagePath), 10, 10, 180); // 180 = ancho; se ajusta automáticamente el alto
-            return response()->json([
-                'message' => 'Validación de imagen omitida para pruebas.'
-            ], 200);
+            // Guardar la imagen procesada como archivo temporal
+            $imagePath = storage_path('app/public/temp_image_' . time() . '.png');
+            $imagick->writeImage($imagePath);
+
+            // Crear el contenido HTML para el PDF
+            $html = '
+                <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; text-align: center; }
+                            img { max-width: 100%; height: auto; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Gráfico Generado</h1>
+                        <img src="' . asset('storage/' . basename($imagePath)) . '" alt="Gráfico">
+                    </body>
+                </html>
+            ';
+
+            // Configurar DomPDF
+            $options = new Options();
+            $options->set('isRemoteEnabled', true); // Permitir cargar imágenes remotas
+            $dompdf = new Dompdf($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait'); // Configurar tamaño y orientación del papel
+            $dompdf->render();
+
             // Guardar el PDF como archivo temporal
             $pdfPath = storage_path('app/public/temp_pdf_' . time() . '.pdf');
-            $pdf->Output($pdfPath, 'F');
+            file_put_contents($pdfPath, $dompdf->output());
 
             // Eliminar la imagen temporal
-            unlink(storage_path('app/public/' . $imagePath));
+            unlink($imagePath);
 
             // Devolver el PDF generado como respuesta
             return response()->download($pdfPath)->deleteFileAfterSend(true);
