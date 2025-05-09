@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('repte_id')->constrained('reptes')->onDelete('cascade'); // Relación con el reto
             $table->date('data'); // Fecha del consumo
             $table->integer('calories_consumides'); // Cantidad de calorías consumidas
+            $table->integer('proteines_consumides')->nullable(); // Cantidad de proteínas consumidas
+            $table->integer('sucres_consumits')->nullable(); // Cantidad de azúcares consumidos
             $table->timestamps();
         });
     }

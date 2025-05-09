@@ -52,12 +52,16 @@ class ConsumDiariController extends Controller
             'repte_id' => 'required|integer',
             'data' => 'required|date',
             'calories' => 'required|integer',
+            'proteines' => 'nullable|integer',
+            'sucres' => 'nullable|integer',
         ]);
 
         $consum = ConsumDiari::create([
             'repte_id' => $request->repte_id,
             'data' => $request->data,
             'calories_consumides' => $request->calories,
+            'proteines_consumides' => $request->proteines,
+            'sucres_consumits' => $request->sucres,
         ]);
 
         return response()->json([
@@ -81,7 +85,7 @@ class ConsumDiariController extends Controller
      */
     public function show($repte_id, Request $request)
     {
-        
+
         $range = $request->query('range', 'today'); // Obtener el rango de la consulta (por defecto "today")
 
         // Crear la consulta base

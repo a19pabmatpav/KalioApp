@@ -105,7 +105,7 @@ class HistoricController extends Controller
                     </head>
                     <body>
                         <h1>Gráfico Generado</h1>
-                        <img src="' . asset('storage/' . basename($imagePath)) . '" alt="Gráfico">
+                        <img src="' . asset('storage/img/' . basename($imagePath)) . '" alt="Gráfico">
                     </body>
                 </html>
             ';

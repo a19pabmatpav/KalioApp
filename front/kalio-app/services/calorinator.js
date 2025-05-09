@@ -56,8 +56,7 @@ class IngredientManager extends ApiClient {
     const foodId = await this.getIngredientId(foodItem);
     if (!foodId) return null;
 
-    const data = await this.makeRequest(`https://api.spoonacular.com/food/ingredients/${foodId}/information`, {
-      amount: 1
+    const data = await this.makeRequest(`https://api.spoonacular.com/food/ingredients/${foodId}/information?amount=1`, {
     });
     console.log(data);
     
@@ -96,16 +95,14 @@ class Calorinator {
     } else {
       console.log(`📦 Obteniendo calorías de ${quantity} unidad(es) de ${foodItem}.`);
       const caloriesPerUnit = await this.ingredientManager.getNutritionData(foodItem);
-      const proteinsPerUnit = await this.ingredientManager.getNutritionData(foodItem);
-      const sugarsPerUnit = await this.ingredientManager.getNutritionData(foodItem);
       if (caloriesPerUnit === null) {
         console.error('❌ No se pudo obtener la información nutricional.');
         return null;
       }
       console.log(caloriesPerUnit, proteinsPerUnit, sugarsPerUnit);
       
-      const totalCalories = caloriesPerUnit * quantity;
-      const totalProteins = proteinsPerUnit * quantity;
+      const totalCalories = float(caloriesPerUnit.calories * quantity);
+      const totalProteins = dades.proteinsPerUnit * quantity;
       const totalSugars = sugarsPerUnit * quantity;
       const nutritionalData = {
         calories: totalCalories,
@@ -115,7 +112,7 @@ class Calorinator {
       console.log(`🍽️ Información nutricional para ${quantity} unidad(es) de ${foodItem}: ${JSON.stringify(nutritionalData)}`);
       
 
-      return parseInt(nutritionalData);
+      return parseFloat(nutritionalData);
     }
   }
 }
