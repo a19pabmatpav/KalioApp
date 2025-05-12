@@ -186,8 +186,8 @@ const getConsumData = async () => {
       // Calcular los porcentajes
       dades.value.percentStats = {
         calories: (totalCalories / maxStats.calories) * 100,
-        proteins: (totalProteins / maxStats) * 100, // Ajustar si tienes datos de proteínas
-        sugars: (totalSugars / maxStats) * 100,   // Ajustar si tienes datos de azúcares
+        proteins: (totalProteins / maxStats.proteins) * 100, // Ajustar si tienes datos de proteínas
+        sugars: (totalSugars / maxStats.sugars) * 100,   // Ajustar si tienes datos de azúcares
         water: 0,    // Ajustar si tienes datos de agua
       };
 
