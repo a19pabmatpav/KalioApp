@@ -31,6 +31,8 @@ import { onMounted, onBeforeUnmount, ref } from 'vue'; // Importar los hooks de 
 const piniaStore = useAuthStore(); // Acceder al store de autenticación (Pinia)
 const repteId = piniaStore.repte.id; // Obtener el id del reto desde el store
 const maxCalories = piniaStore.repte.limit_calories_diari; // Obtener el límite de calorías desde el store
+const maxProteins = (maxCalories * 0.15) / 4; // Obtener el límite de proteínas desde el store
+const maxSugars = (maxCalories * 0.10) / 4; // Obtener el límite de azúcares desde el store
 console.log(maxCalories);
 
 // Referencias para cada gráfico (se usarán en los hooks de Vue)
@@ -43,10 +45,12 @@ const statsChartComplet = ref(null);
 // Datos máximos para calcular porcentajes
 const maxStats = {
   calories: maxCalories,  // Calorías máximas (usadas para los porcentajes)
-  proteins: ref(null),    // Proteínas máximas
-  sugars: ref(null),      // Azúcares máximos
+  proteins: maxProteins,    // Proteínas máximas
+  sugars: maxSugars,      // Azúcares máximos
   water: ref(null),       // Agua máxima
 };
+
+console.log('maxStats', maxStats);
 
 // Datos de consumo diarios
 const dades = ref({
@@ -168,20 +172,22 @@ const getConsumData = async () => {
 
       // Sumar las calorías consumidas
       const totalCalories = data.reduce((sum, item) => sum + item.calories_consumides, 0);
+      const totalProteins = data.reduce((sum, item) => sum + item.proteines_consumides, 0);
+      const totalSugars = data.reduce((sum, item) => sum + item.sucres_consumits, 0);
 
       // Actualizar los valores de consumo diario
       dades.value.dailyStats = {
         calories: totalCalories, // Total de calorías consumidas
-        proteins: 0, // Ajustar si tienes datos de proteínas
-        sugars: 0,   // Ajustar si tienes datos de azúcares
+        proteins: totalProteins, // Ajustar si tienes datos de proteínas
+        sugars: totalSugars,   // Ajustar si tienes datos de azúcares
         water: 0,    // Ajustar si tienes datos de agua
       };
 
       // Calcular los porcentajes
       dades.value.percentStats = {
         calories: (totalCalories / maxStats.calories) * 100,
-        proteins: 0, // Ajustar si tienes datos de proteínas
-        sugars: 0,   // Ajustar si tienes datos de azúcares
+        proteins: (totalProteins / maxStats) * 100, // Ajustar si tienes datos de proteínas
+        sugars: (totalSugars / maxStats) * 100,   // Ajustar si tienes datos de azúcares
         water: 0,    // Ajustar si tienes datos de agua
       };
 

@@ -159,17 +159,24 @@ export default {
                 console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars);
             }
 
+            const dades = {
+                repte_id: repte_id,
+                data: new Date().toISOString().split('T')[0],
+                calories: consumedCalories,
+                proteins: consumedProteins,
+                sugars: consumedSugars,
+            }
+
+            console.log('Dades Finals', dades);
+            
+
             const response = await $fetch('http://localhost:8000/api/addConsum', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Bearer': localStorage.getItem('authToken'),
                 },
-                body: JSON.stringify({
-                    repte_id: repte_id,
-                    calories: consumedCalories,
-                    data: new Date().toISOString().split('T')[0]
-                }),
+                body: dades,
             })
                 .then((response) => {
                     console.log('Success:', response);
