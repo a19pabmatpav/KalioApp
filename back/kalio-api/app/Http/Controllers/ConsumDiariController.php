@@ -54,6 +54,7 @@ class ConsumDiariController extends Controller
             'calories' => 'required|numeric',
             'proteins' => 'nullable|numeric',
             'sugars' => 'nullable|numeric',
+            'water' => 'nullable|numeric',
         ]);
 
         $consum = ConsumDiari::create([
@@ -62,6 +63,7 @@ class ConsumDiariController extends Controller
             'calories_consumides' => $request->calories,
             'proteines_consumides' => $request->proteins,
             'sucres_consumits' => $request->sugars,
+            'aigua_consumida' => $request->water,
         ]);
 
         return response()->json([

@@ -32,6 +32,7 @@ class ConsumDiari extends Model
         'calories_consumides', // Cantidad de calorías consumidas
         'proteines_consumides',
         'sucres_consumits',        // Cantidad de proteínas consumidas
+        'aigua_consumida',        // Cantidad de azúcares consumidos
     ];
 
     /**

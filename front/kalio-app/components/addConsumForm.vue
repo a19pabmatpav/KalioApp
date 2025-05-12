@@ -131,6 +131,7 @@ export default {
             let consumedCalories = auth.consumDia;
             let consumedProteins = auth.consumProt;
             let consumedSugars = auth.consumSuger;
+            let consumedWater = auth.consumAigua;
             
             const repte_id = auth.repte.id;
 
@@ -149,14 +150,26 @@ export default {
                     'ingredient'
                 );
 
-                console.log('Valores recibidos:', { calories, proteins, sugars });
+                console.log('Valores recibidos:', { calories, proteins, sugars  });
 
                 // Asignar los valores a las variables acumulativas
                 consumedCalories += calories || 0; // Si es null, suma 0
                 consumedProteins += proteins || 0; // Si es null, suma 0
                 consumedSugars += sugars || 0; // Si es null, suma 0
+                consumedWater = 
 
                 console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars);
+            }
+
+            for (let liquid of consum.liquidos) {
+                if (liquid.liquido === 'agua') {
+                    console.log('liquid', liquid);
+                    
+                    // Actualizar el agua consumida
+                    this.cantidadLiquido += consumedWater;
+
+                    console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars, consumedWater);
+                }
             }
 
             const dades = {
@@ -165,6 +178,7 @@ export default {
                 calories: consumedCalories,
                 proteins: consumedProteins,
                 sugars: consumedSugars,
+                water: this.cantidadLiquido,
             }
 
             console.log('Dades Finals', dades);

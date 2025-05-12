@@ -33,7 +33,7 @@ const repteId = piniaStore.repte.id; // Obtener el id del reto desde el store
 const maxCalories = piniaStore.repte.limit_calories_diari; // Obtener el límite de calorías desde el store
 const maxProteins = (maxCalories * 0.15) / 4; // Obtener el límite de proteínas desde el store
 const maxSugars = (maxCalories * 0.10) / 4; // Obtener el límite de azúcares desde el store
-console.log(maxCalories);
+const maxWater = 2500; // Obtener el límite de agua desde el store
 
 // Referencias para cada gráfico (se usarán en los hooks de Vue)
 const caloriesChart = ref(null);
@@ -47,7 +47,7 @@ const maxStats = {
   calories: maxCalories,  // Calorías máximas (usadas para los porcentajes)
   proteins: maxProteins,    // Proteínas máximas
   sugars: maxSugars,      // Azúcares máximos
-  water: ref(null),       // Agua máxima
+  water: maxWater,       // Agua máxima
 };
 
 console.log('maxStats', maxStats);

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->float('calories_consumides'); // Cantidad de calorías consumidas
             $table->float('proteines_consumides')->nullable(); // Cantidad de proteínas consumidas
             $table->float('sucres_consumits')->nullable(); // Cantidad de azúcares consumidos
+            $table->float('aigua_consumida')->nullable(); // Cantidad de agua consumida
             $table->timestamps();
         });
     }
