@@ -1,7 +1,6 @@
 <template>
     <div class="add-consum-form">
-        <h2>Registre de nou consum</h2>
-        <div>
+        <div class="platOingredient">
             <button @click="platOingredient = 'plat'">Plat</button>
             <button @click="platOingredient = 'ingredient'">Ingredient</button>
         </div>

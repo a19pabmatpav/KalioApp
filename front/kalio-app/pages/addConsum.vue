@@ -1,16 +1,16 @@
 <template>
   <div class="contenedor">
     <h1>Afegir consum</h1>
-    <button @click="toggleFormulari">Afegir manualment</button>
-    <button @click="toggleDetector">Fotodetector</button>
+    <!-- <button @click="toggleFormulari">Afegir manualment</button> -->
+    <!-- <button @click="toggleDetector">Fotodetector</button> -->
 
     <!-- Render dinámico con transición -->
-    <transition name="fade">
-      <addConsumForm v-if="formulariActiu" />
-    </transition>
-    <transition name="fade">
+
+    <addConsumForm v-if="formulariActiu" />
+
+    <!-- <transition name="fade">
       <fotodetector v-if="detectorActiu" />
-    </transition>
+    </transition> -->
   </div>
 </template>
 
@@ -22,8 +22,8 @@ definePageMeta({
 export default {
   data() {
     return {
-      formulariActiu: false,
-      detectorActiu: false,
+      formulariActiu: true,
+      // detectorActiu: false,
     };
   },
   methods: {
@@ -31,10 +31,10 @@ export default {
       this.formulariActiu = !this.formulariActiu;
       if (this.formulariActiu) this.detectorActiu = false;
     },
-    toggleDetector() {
-      this.detectorActiu = !this.detectorActiu;
-      if (this.detectorActiu) this.formulariActiu = false;
-    },
+    // toggleDetector() {
+    //   this.detectorActiu = !this.detectorActiu;
+    //   if (this.detectorActiu) this.formulariActiu = false;
+    // },
   },
 };
 </script>
@@ -62,8 +62,23 @@ export default {
 .fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
+/* button {
+    padding: 10px;
+    background-color: #FF7A00;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background-color: #e66a00;
+} */
 </style>
