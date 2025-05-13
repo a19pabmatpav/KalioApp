@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout-container">
     <div class="dropdown">
       <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
         data-bs-auto-close="outside">
@@ -13,34 +13,39 @@
       </ul>
     </div>
     <slot />
-    <p>footer</p>
   </div>
 </template>
 
 <style scoped>
-div {
+/* Contenedor principal que llena toda la página */
+.layout-container {
   background-color: #8A2BE2;
-  max-width: 100vw;
-  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
 }
 
+/* Botón del menú */
 button {
-    padding: 10px;
-    background-color: #FF7A00;
-    border-radius: 5px;
-    color: white;
-    border: black solid 1px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-
+  padding: 10px;
+  background-color: #FF7A00;
+  border-radius: 5px;
+  color: white;
+  border: black solid 1px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
+/* Ocultar el indicador del dropdown */
 button.dropdown-toggle::after {
   display: none !important;
 }
 
+/* Footer */
 p {
   height: 25px;
+  margin: 0;
+  text-align: center;
+  color: white;
 }
 </style>

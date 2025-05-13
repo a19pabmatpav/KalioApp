@@ -21,25 +21,23 @@ class LogroController extends Controller
      *   - Error 400 si no se proporciona el nombre de usuario.
      *   - Error 404 si el usuario no existe.
      */
-    public function index(Request $request)
-    {
-        $username = $request->query('username');
-
-        if (!$username) {
-            return response()->json(['error' => 'Nombre de usuario no proporcionado'], 400);
-        }
-
-        $user = User::where('name', $username)->first();
-
-        if (!$user) {
-            return response()->json(['error' => 'Usuario no encontrado'], 404);
-        }
-
-        // Recuperar los logros asignados al usuario
-        $logros = $user->logros()->withPivot('user_id')->get();
-
-        return response()->json($logros);
+    public function index($username)
+{
+    if (!$username) {
+        return response()->json(['error' => 'Nombre de usuario no proporcionado'], 400);
     }
+
+    $user = User::where('name', $username)->first();
+
+    if (!$user) {
+        return response()->json(['error' => 'Usuario no encontrado'], 404);
+    }
+
+    $logros = $user->logros()->withPivot('user_id')->get();
+
+    return response()->json($logros);
+}
+
 
     /**
      * Show the form for creating a new resource.

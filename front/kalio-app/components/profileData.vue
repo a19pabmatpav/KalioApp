@@ -15,6 +15,11 @@
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Anterior</span>
             </button>
+            <div class="carousel-indicators">
+                <button v-for="(item, index) in items" :key="index" type="button" data-bs-target="#carouselExample"
+                    data-bs-slide-to="index" :class="{ active: index === 0 }" aria-current="true"
+                    aria-label="Slide {{ index + 1 }}"></button>
+            </div>
             <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Siguiente</span>

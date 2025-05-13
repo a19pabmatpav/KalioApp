@@ -1,7 +1,6 @@
 <template>
     <div>
-        <img src="../public/img/kalioMonster.webp" alt="" srcset="">
-        
+        <img src="../public/img/kalioMonsterCopy.png" alt="Kalio Monster" />
     </div>
 </template>
 
@@ -28,10 +27,10 @@ export default {
 <style scoped>
 img {
     max-width: 70vw;
-    max-height: 75vh;
+    max-height: 70vh;
     margin: auto;
     display: block;
+    border-radius: 50%; /* Hace la imagen circular */
+    object-fit: cover; /* Asegura que la imagen se ajuste correctamente dentro del círculo */
 }
-
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <button><img src="../public/img/plus.svg" alt="" srcset="" @click="addConsum"></button>
+  <button><img class="add" src="../public/img/plus.svg" alt="" srcset="" @click="addConsum"></button>
   <div class="stats-consum">
     <h1>Estadístiques de Consum:</h1>
 
@@ -15,7 +15,7 @@
     <div class="grafic">
       <canvas id="waterChart" ref="waterChart"></canvas>
     </div>
-    <img src="../public/img/info-circle.svg" alt="infoBtn" @click="showInfo" />
+    <img class="info" src="../public/img/info-circle.svg" alt="infoBtn" @click="showInfo" />
     <div class="moreStats">
       <div class="graficComplet">
         <canvas id="statsChartComplet"></canvas>
@@ -276,24 +276,45 @@ canvas {
 
 img {
 
-  position: absolute;
+  position: relative;
   right: 25px;
 }
+
 button {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: #FF7A00;
-    margin-top: 2vh;
-    margin-left: 15vw;
+    align-items: center;
+    background-color: #FF7A00; /* Color de fondo del botón */
+    border: none; /* Eliminar bordes */
+    border-radius: 50%; /* Hacer el botón circular */
+    width: 50px; /* Ancho del botón */
+    height: 50px; /* Alto del botón */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el botón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    margin-top: 10px; /* Margen superior automático para centrar el botón */
+    margin-left: 15px; /* Margen izquierdo */
 }
 
-button img {
-    width: 30px;
-    height: 30px;
+button:hover {
+    background-color: #FF9A33; /* Cambiar el color al pasar el cursor */
+}
+
+.add {
+    margin-left: 49px; /* Margen izquierdo de la imagen */
+    width: 30px; /* Ancho de la imagen */
+    height: 30px; /* Alto de la imagen */
+    border-radius: 50%; /* Hacer la imagen circular */
+}
+
+.info {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 }
 
 .moreStats {
