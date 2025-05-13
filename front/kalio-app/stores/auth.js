@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', {
     consumDia: 0,
     consumProt: 0,
     consumSuger: 0,
+    consumAigua: 0,
     consums: [],
     authenticated: false
   }),
@@ -40,6 +41,11 @@ export const useAuthStore = defineStore('auth', {
       console.log("PREConsumSuger: " + consumSuger);
       this.consumSuger += consumSuger
       console.log("POSConsumSuger: " + this.consumSuger);      
+    },
+    addConsumAigua(consumAigua) {
+      console.log("PREConsumAigua: " + consumAigua);
+      this.consumAigua += consumAigua
+      console.log("POSConsumAigua: " + this.consumAigua);      
     },
     setConsums(historial) {
       console.log("PREConsums: " + historial);

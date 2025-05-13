@@ -139,6 +139,9 @@ export default {
                 alimentos: this.alimentos,
                 liquidos: this.liquidos,
             }
+
+            console.log('Consum', consum);
+
             //const translatedConsum = translator.translateTextEn(consum);
             for (let ingredient of consum.alimentos) {
                 console.log('ingredient', ingredient);
@@ -153,32 +156,26 @@ export default {
                 console.log('Valores recibidos:', { calories, proteins, sugars  });
 
                 // Asignar los valores a las variables acumulativas
-                consumedCalories += calories || 0; // Si es null, suma 0
-                consumedProteins += proteins || 0; // Si es null, suma 0
-                consumedSugars += sugars || 0; // Si es null, suma 0
-                consumedWater = 
-
-                console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars);
+                consumedCalories += calories || 0;
+                consumedProteins += proteins || 0;
+                consumedSugars += sugars || 0;
             }
 
-            for (let liquid of consum.liquidos) {
-                if (liquid.liquido === 'agua') {
-                    console.log('liquid', liquid);
-                    
-                    // Actualizar el agua consumida
-                    this.cantidadLiquido += consumedWater;
+            // Calcular el agua consumida
+            for (let begut of consum.liquidos) {
 
-                    console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars, consumedWater);
-                }
+                consumedWater += begut.liquido === 'agua' ? begut.cantidad : 0;
             }
 
+            console.log('Dades POSTconsumides', consumedCalories, consumedProteins, consumedSugars, consumedWater);
+            
             const dades = {
                 repte_id: repte_id,
                 data: new Date().toISOString().split('T')[0],
                 calories: consumedCalories,
                 proteins: consumedProteins,
                 sugars: consumedSugars,
-                water: this.cantidadLiquido,
+                water: consumedWater,
             }
 
             console.log('Dades Finals', dades);
@@ -195,8 +192,9 @@ export default {
                 .then((response) => {
                     console.log('Success:', response);
                     auth.addConsumDia(response.consum.calories_consumides);
-                    auth.addConsumProt(response.consum.proteins_consumides);
-                    auth.addConsumSuger(response.consum.sugars_consumides);
+                    auth.addConsumProt(response.consum.proteines_consumides);
+                    auth.addConsumSuger(response.consum.sucres_consumits);
+                    auth.addConsumAigua(response.consum.aigua_consumida);
                     auth.setConsums(response.consum);
                 }).catch((error) => {
                     console.error('Error:', error);

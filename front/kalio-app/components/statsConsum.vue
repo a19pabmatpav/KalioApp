@@ -174,13 +174,14 @@ const getConsumData = async () => {
       const totalCalories = data.reduce((sum, item) => sum + item.calories_consumides, 0);
       const totalProteins = data.reduce((sum, item) => sum + item.proteines_consumides, 0);
       const totalSugars = data.reduce((sum, item) => sum + item.sucres_consumits, 0);
+      const totalWater = data.reduce((sum, item) => sum + item.aigua_consumida, 0);
 
       // Actualizar los valores de consumo diario
       dades.value.dailyStats = {
         calories: totalCalories, // Total de calorías consumidas
         proteins: totalProteins, // Ajustar si tienes datos de proteínas
         sugars: totalSugars,   // Ajustar si tienes datos de azúcares
-        water: 0,    // Ajustar si tienes datos de agua
+        water: totalWater,    // Ajustar si tienes datos de agua
       };
 
       // Calcular los porcentajes
@@ -188,7 +189,7 @@ const getConsumData = async () => {
         calories: (totalCalories / maxStats.calories) * 100,
         proteins: (totalProteins / maxStats.proteins) * 100, // Ajustar si tienes datos de proteínas
         sugars: (totalSugars / maxStats.sugars) * 100,   // Ajustar si tienes datos de azúcares
-        water: 0,    // Ajustar si tienes datos de agua
+        water: (totalWater / maxStats.water) * 100,    // Ajustar si tienes datos de agua
       };
 
       console.log('Dades actualitzades:', dades.value);
