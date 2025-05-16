@@ -28,6 +28,7 @@
 /* Botón del menú */
 button {
   padding: 10px;
+  margin: 10px;
   background-color: #FF7A00;
   border-radius: 5px;
   color: white;
