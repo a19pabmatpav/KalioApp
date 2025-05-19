@@ -13,7 +13,7 @@ Aquesta aplicació web permet als usuaris registrar i gestionar el seu consum di
 - [Penpot](https://design.penpot.app/#/view?file-id=e3472dad-8d1d-80d6-8005-d3600318f8f0&page-id=e3472dad-8d1d-80d6-8005-d3600318f8f1&section=interactions&index=0&share-id=7e5a2fce-ccc0-804a-8005-d50a692b6a78) (Casus d'ús)
 
 ## URL de producció
-- [kalioApp.com](proximament...)
+- [kalioApp.com](kalioapp.a19pabmatpav.daw.inspedralbes.cat)
 
 ## Estat
 El projecte es troba en fase de desenvolupament. Actualment, la funcionalitat de creació de reptes i registre de consum de calories diàries està implementada, i s'està treballant en la part de seguiment dels informes i validació de les dades. El sistema d'autenticació (login, registre d'usuaris) també està actiu i operatiu.
@@ -93,6 +93,8 @@ El projecte es troba en fase de desenvolupament. Actualment, la funcionalitat de
 - Crear informes detallats per als usuaris amb estadístiques sobre el seu consum de calories.
 - Afegir notificacions per recordar als usuaris registrar el seu consum de calories diàries.
 - Crear la funcionalitat de despeses de calories, conectant-se a bandes d'esport o d'altres.
+- Integrar la detecció d'aliments mitjançant una fotografia i Gemini AI.
+- Enviament d'emails amp l'històric demanat pel usuari.
 
 ---
 
